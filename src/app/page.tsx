@@ -3,9 +3,22 @@ import { Inter } from '@next/font/google'
 import styles from './page.module.css'
 import PocketBase from 'pocketbase';
 
-const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+const inter = Inter({ subsets: ['latin'] })
+const pb = new PocketBase('http://127.0.0.1:8090');
+
+
+export default async function Home() {
+
+  try {
+    const result = await pb.collection('users').getList(1, 50);
+    
+    console.log('Result:', result);
+  } catch (error) {
+    console.log('Error:', error);
+  }
+  
+  
   return (
     <main className={styles.main}>
       <div className={styles.description}>
