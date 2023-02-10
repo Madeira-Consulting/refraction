@@ -25,10 +25,11 @@ export const Page: React.FC = () => {
 
     return (
         <>
-            <div className="flex flex-row w-screen">
+            <div className="flex flex-row w-screen dark:bg-dark1">
                 <div className="fixed">
                     <Sidebar
                         user={user}
+                        isCollapsed={true}
                         onLogin={function (): void {
                             throw new Error("Function not implemented.");
                         }}
@@ -41,7 +42,7 @@ export const Page: React.FC = () => {
                     />
                 </div>
 
-                <div className="flex flex-col w-full ml-72">
+                <div className="flex flex-col w-full ml-24 px-10">
                     <Header
                         user={user}
                         onLogin={() =>
@@ -61,12 +62,12 @@ export const Page: React.FC = () => {
                         <div className="text-black col-span-2">Test</div>
                         <div className="text-black">
                             <div className="flex flex-col gap-8">
-                                <div className="bg-gray-100 p-5 font-bold text-slate-500 rounded-2xl flex flex-row items-center justify-between">
+                                <div className="bg-gray-100 dark:bg-dark2 p-5 font-bold text-slate-500 dark:text-white rounded-2xl flex flex-row items-center justify-between">
                                     Match League Of Legends
                                     <FaAngleDown />
                                 </div>
-                                <div className="bg-gray-100 h-96 p-5 font-bold text-slate-500 rounded-2xl flex flex-row items-center justify-between"></div>
-                                <div className="bg-gray-100 h-96 p-5 font-bold text-slate-500 rounded-2xl flex flex-row items-center justify-between"></div>
+                                <div className="bg-gray-100 dark:bg-dark2 h-96 p-5 font-bold text-slate-500 dark:text-white rounded-2xl flex flex-row items-center justify-between"></div>
+                                <div className="bg-gray-100 dark:bg-dark2 h-96 p-5 font-bold text-slate-500 dark:text-white rounded-2xl flex flex-row items-center justify-between"></div>
                             </div>
                         </div>
                     </div>

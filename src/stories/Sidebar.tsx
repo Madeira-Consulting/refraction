@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { FaAngleDown } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
+import { SidebarButton } from "./SidebarButton";
 
 type User = {
     userName: string;
@@ -13,6 +14,7 @@ type User = {
 
 interface SidebarProps {
     user?: User;
+    isCollapsed?: boolean;
     onLogin: () => void;
     onLogout: () => void;
     onProfile: () => void;
@@ -20,71 +22,75 @@ interface SidebarProps {
 
 export const Sidebar = ({
     user,
+    isCollapsed,
     onLogin,
     onLogout,
     onProfile,
 }: SidebarProps) => (
-    <div className="h-screen w-72 border-r-2 border-gray-100 px-5 pb-12 pt-16 flex flex-col justify-between">
+    <div
+        className={
+            "h-screen border-r-1 border-gray-100 px-5 pb-12 pt-16 flex flex-col items-center justify-between dark:bg-dark2 " +
+            (isCollapsed ? "w-24" : "w-72")
+        }
+    >
         <div>
             <Image
                 src={
-                    "https://6495341.fs1.hubspotusercontent-na1.net/hubfs/6495341/Actindo_Anbindung_FedEx.svg"
+                    "https://www.preemptive.com/wp-content/uploads/2021/12/FedEx-Logo-white@2x.png"
                 }
                 width="0"
                 height="0"
                 sizes="100vw"
                 alt={"Profile Picture"}
-                className="w-auto h-auto px-10"
+                className={
+                    "w-auto h-auto px-5 " + (isCollapsed ? "hidden" : "")
+                }
             />
         </div>
-        <nav className="flex flex-col gap-12 justify-between">
+        <nav className="flex flex-col gap-12 w-full justify-between">
             <ul className="flex flex-col gap-2">
-                <li className="text-primary font-bold flex flex-row gap-5 items-center py-4 px-5 bg-gray-100 rounded-2xl">
+                <li
+                    className={
+                        "text-primary font-bold flex flex-row gap-5 items-center bg-gray-100 dark:bg-primary/10 dark:border-2 border-white/5 rounded-2xl " +
+                        (isCollapsed
+                            ? "w-12 h-12 justify-center rounded-full"
+                            : "py-4 px-5 rounded-2xl")
+                    }
+                >
                     <AiFillHome />
-                    Home
+                    {isCollapsed ? "" : "Home"}
                 </li>
-                <li className="text-slate-500 hover:text-primary font-bold flex flex-row gap-5 items-center py-4 px-5 bg-inherit rounded-2xl duration-200">
-                    <AiFillHome />
-                    Trending
-                </li>
-                <li className="text-slate-500 hover:text-primary font-bold flex flex-row gap-5 items-center py-4 px-5 bg-inherit rounded-2xl duration-200">
-                    <AiFillHome />
-                    Match
-                </li>
-                <li className="text-slate-500 hover:text-primary font-bold flex flex-row gap-5 items-center py-4 px-5 bg-inherit rounded-2xl duration-200">
-                    <AiFillHome />
-                    Friends
-                </li>
-                <li className="text-slate-500 hover:text-primary font-bold flex flex-row gap-5 items-center py-4 px-5 bg-inherit rounded-2xl duration-200">
-                    <AiFillHome />
-                    Schedule
-                </li>
-                <li className="text-slate-500 hover:text-primary font-bold flex flex-row gap-5 items-center py-4 px-5 bg-inherit rounded-2xl duration-200">
-                    <AiFillHome />
-                    Messages
-                </li>
+                <SidebarButton isCollapsed={isCollapsed} text={"Trending"} />
+                <SidebarButton isCollapsed={isCollapsed} text={"Match"} />
+                <SidebarButton isCollapsed={isCollapsed} text={"Friends"} />
+                <SidebarButton isCollapsed={isCollapsed} text={"Schedule"} />
+                <SidebarButton isCollapsed={isCollapsed} text={"Messages"} />
             </ul>
             <ul className="flex flex-col gap-2">
-                <li className="text-slate-500 hover:text-primary font-bold flex flex-row gap-5 items-center py-4 px-5 bg-inherit rounded-2xl duration-200">
-                    <AiFillHome />
-                    Settings
-                </li>
-                <li className="text-slate-500 hover:text-primary font-bold flex flex-row gap-5 items-center py-4 px-5 bg-inherit rounded-2xl duration-200">
-                    <AiFillHome />
-                    Log Out
-                </li>
+                <SidebarButton isCollapsed={isCollapsed} text={"Settings"} />
+                <SidebarButton isCollapsed={isCollapsed} text={"Log Out"} />
             </ul>
         </nav>
-        <div className="text-primary flex flex-row items-center font-bold gap-5 bg-gray-100 py-2 px-3 rounded-xl justify-between">
+        {isCollapsed ? (
             <Image
                 src={user!.profilePicture}
-                width={40}
-                height={40}
+                width={48}
+                height={48}
                 alt={"Profile Picture"}
-                className="rounded-lg shadow-md"
+                className="rounded-full shadow-md"
             />
-            <div className="flex-1">{user!.firstName}</div>
-            <FaAngleDown />
-        </div>
+        ) : (
+            <div className="text-primary dark:text-white flex flex-row items-center font-bold gap-5 bg-gray-100 dark:bg-dark1 py-2 px-3 rounded-xl justify-between w-full">
+                <Image
+                    src={user!.profilePicture}
+                    width={40}
+                    height={40}
+                    alt={"Profile Picture"}
+                    className="rounded-lg shadow-md"
+                />
+                <div className="flex-1">{user!.firstName}</div>
+                <FaAngleDown />
+            </div>
+        )}
     </div>
 );

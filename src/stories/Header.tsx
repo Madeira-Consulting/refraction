@@ -20,15 +20,15 @@ interface HeaderProps {
 }
 
 export const Header = ({ user, onLogin, onLogout, onProfile }: HeaderProps) => (
-    <header className="w-full h-min p-8 border-b-2 border-gray-100 shadow-sm">
-        <div className="flex flex-row w-full justify-between text-slate-500 font-normal gap-4 h-12">
-            <div className="flex flex-row grow items-center bg-gray-100 rounded-full px-4 gap-4 font-semibold">
-                <FiSearch className="text-slate-500" />
+    <header className="w-full h-min p-8 border-b-1 border-gray-100 shadow-sm">
+        <div className="flex flex-row w-full justify-between text-slate-500 dark:text-white font-normal gap-4 h-12">
+            <div className="flex flex-row grow items-center bg-gray-100 dark:bg-dark2 text-slate-500 dark:text-white  rounded-full px-4 gap-4 font-semibold">
+                <FiSearch />
                 Find a match...
             </div>
             <div className="flex grow-0 gap-4">
-                <div className="w-12 bg-gray-100 rounded-lg flex justify-center items-center">
-                    <CgBell className="text-primary" size={20} />
+                <div className="w-12 bg-gray-100 dark:bg-dark2 text-primary dark:text-white rounded-full flex justify-center items-center">
+                    <CgBell size={20} />
                 </div>
 
                 {user ? (
@@ -38,7 +38,7 @@ export const Header = ({ user, onLogin, onLogout, onProfile }: HeaderProps) => (
                             width={48}
                             height={48}
                             alt={"Profile Picture"}
-                            className="rounded-lg shadow-md"
+                            className="rounded-full shadow-md"
                             onClick={onProfile}
                         />
                     </>
