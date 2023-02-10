@@ -1,3 +1,5 @@
+import postcss from 'postcss';
+import * as tailwindcss from '../tailwind.config';
 import type { StorybookConfig } from '@storybook/nextjs';
 
 const config: StorybookConfig = {
@@ -8,7 +10,8 @@ const config: StorybookConfig = {
   "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/addon-interactions"
+    "@storybook/addon-interactions",
+    "@storybook/addon-postcss"
   ],
   "framework": {
     "name": "@storybook/nextjs",
@@ -19,3 +22,24 @@ const config: StorybookConfig = {
   }
 };
 export default config;
+
+
+export const addons: StorybookConfig['addons'] = [
+  // other addons,
+  {
+    name: '@storybook/addon-postcss',
+    options: {
+      postcssLoaderOptions: {
+        implementation: postcss,
+        postcssOptions: {
+          plugins: {
+            tailwindcss, // or you can nest your options entirely here
+            autoprefixer: {
+              // autoprefixer options
+            },
+          },
+        },
+      },
+    },
+  },
+];

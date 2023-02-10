@@ -1,56 +1,58 @@
-import React from 'react';
-
-import { Button } from './Button';
-import './header.css';
+import React from "react";
+import Image from "next/image";
+import { FiSearch } from "react-icons/fi";
+import { CgBell } from "react-icons/cg";
+import { AiOutlineKey } from "react-icons/ai";
 
 type User = {
-  name: string;
+    userName: string;
+    firstName: string;
+    lastName: string;
+    profilePicture: string;
+    mail: string;
 };
 
 interface HeaderProps {
-  user?: User;
-  onLogin: () => void;
-  onLogout: () => void;
-  onCreateAccount: () => void;
+    user?: User;
+    onLogin: () => void;
+    onLogout: () => void;
+    onProfile: () => void;
 }
 
-export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => (
-  <header>
-    <div className="wrapper">
-      <div>
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-          <g fill="none" fillRule="evenodd">
-            <path
-              d="M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z"
-              fill="#FFF"
-            />
-            <path
-              d="M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z"
-              fill="#555AB9"
-            />
-            <path
-              d="M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z"
-              fill="#91BAF8"
-            />
-          </g>
-        </svg>
-        <h1>Acme</h1>
-      </div>
-      <div>
-        {user ? (
-          <>
-            <span className="welcome">
-              Welcome, <b>{user.name}</b>!
-            </span>
-            <Button size="small" onClick={onLogout} label="Log out" />
-          </>
-        ) : (
-          <>
-            <Button size="small" onClick={onLogin} label="Log in" />
-            <Button primary size="small" onClick={onCreateAccount} label="Sign up" />
-          </>
-        )}
-      </div>
-    </div>
-  </header>
+export const Header = ({ user, onLogin, onLogout, onProfile }: HeaderProps) => (
+    <header className="w-full h-min p-8 border-b-2 border-gray-100 shadow-sm">
+        <div className="flex flex-row w-full justify-between text-slate-500 font-normal gap-4 h-12">
+            <div className="flex flex-row grow items-center bg-gray-100 rounded-full px-4 gap-4 font-semibold">
+                <FiSearch className="text-slate-500" />
+                Find a match...
+            </div>
+            <div className="flex grow-0 gap-4">
+                <div className="w-12 bg-gray-100 rounded-lg flex justify-center items-center">
+                    <CgBell className="text-primary" size={20} />
+                </div>
+
+                {user ? (
+                    <>
+                        <Image
+                            src={user!.profilePicture}
+                            width={48}
+                            height={48}
+                            alt={"Profile Picture"}
+                            className="rounded-lg shadow-md"
+                            onClick={onProfile}
+                        />
+                    </>
+                ) : (
+                    <>
+                        <div
+                            className="w-12 bg-primary rounded-lg flex justify-center items-center"
+                            onClick={onLogin}
+                        >
+                            <AiOutlineKey className="text-white" size={20} />
+                        </div>
+                    </>
+                )}
+            </div>
+        </div>
+    </header>
 );

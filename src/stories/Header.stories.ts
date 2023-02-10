@@ -18,7 +18,11 @@ type Story = StoryObj<typeof Header>;
 export const LoggedIn: Story = {
   args: {
     user: {
-      name: 'Jane Doe',
+      userName: 'johndoe',
+      firstName: 'John',
+      lastName: 'Doe',
+      mail: 'johndoe@mail.com',
+      profilePicture: 'https://i1.sndcdn.com/artworks-DoavOeHRnAqXbfO7-6FJP0A-t500x500.jpg',
     },
   },
 };
