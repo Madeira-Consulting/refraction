@@ -1,22 +1,28 @@
 import React from "react";
 import { AiFillHome } from "react-icons/ai";
+import { BsQuestionLg } from "react-icons/bs";
 
 interface SidebarButtonProps {
     text: string;
     isCollapsed?: boolean;
+    icon?: JSX.Element;
 }
 
-export const SidebarButton = ({ text, isCollapsed }: SidebarButtonProps) => (
+export const SidebarButton = ({
+    text,
+    isCollapsed,
+    icon,
+}: SidebarButtonProps) => (
     <>
         <li
             className={
-                "text-slate-500 dark:text-white hover:text-primary font-bold flex flex-row gap-5 items-center bg-inherit duration-200 " +
-                (isCollapsed
-                    ? "w-12 h-12 justify-center rounded-full"
-                    : "py-4 px-5 rounded-2xl")
+                "text-slate-500 dark:text-white/20 hover:text-white font-medium flex flex-row gap-5 items-center bg-inherit duration-200 " +
+                (isCollapsed ? " justify-center" : "h-12 py-2 rounded-2xl")
             }
         >
-            <AiFillHome />
+            <div className="p-3 bg-white/20 rounded-2xl hover:shadow-lg hover:shadow-white/5 duration-200">
+                {icon ? icon : <BsQuestionLg size={20} />}
+            </div>
             {isCollapsed ? "" : text}
         </li>
     </>
