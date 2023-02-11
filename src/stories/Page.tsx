@@ -3,9 +3,6 @@ import React from "react";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
 import "./page.css";
-import { FaAngleDown } from "react-icons/fa";
-import { IoIosArrowForward } from "react-icons/io";
-import { ListItem } from "./ListItem";
 import { Home } from "./Home";
 import { Player } from "./Player";
 
@@ -47,18 +44,7 @@ export const Page = ({ user, screenName, collapsed }: PageProps) => (
                     "fixed z-50 w-full " + (collapsed ? "pl-24" : "pl-72")
                 }
             >
-                <Header
-                    user={user}
-                    onLogin={function (): void {
-                        throw new Error("Function not implemented.");
-                    }}
-                    onLogout={function (): void {
-                        throw new Error("Function not implemented.");
-                    }}
-                    onProfile={function (): void {
-                        throw new Error("Function not implemented.");
-                    }}
-                />
+                <Header />
             </div>
             <div
                 className={
