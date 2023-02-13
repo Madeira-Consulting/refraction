@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { SidebarButton } from "./SidebarButton";
 import { SidebarProfile } from "./SidebarProfile";
-import { VscSettings } from "react-icons/vsc";
+import { VscRadioTower, VscSettings } from "react-icons/vsc";
 import { AiFillHome } from "react-icons/ai";
 import {
     BsFillCalendar3WeekFill,
@@ -10,8 +10,12 @@ import {
     BsSpeakerFill,
 } from "react-icons/bs";
 import { IoMdMusicalNotes } from "react-icons/io";
+import { IoLibrarySharp } from "react-icons/io5";
+import { IoMdRadio } from "react-icons/io";
 import { FaHistory } from "react-icons/fa";
 import { UsersRecord } from "../types/pocketbase-types";
+import { FiRadio } from "react-icons/fi";
+import { BiWorld } from "react-icons/bi";
 
 interface SidebarProps {
     user?: UsersRecord;
@@ -72,7 +76,7 @@ export const Sidebar = ({
                 <SidebarButton
                     isCollapsed={isCollapsed}
                     text={"Library"}
-                    icon={<IoMdMusicalNotes size={21} />}
+                    icon={<IoLibrarySharp size={21} />}
                 />
                 <SidebarButton
                     isCollapsed={isCollapsed}
@@ -82,17 +86,17 @@ export const Sidebar = ({
                 <SidebarButton
                     isCollapsed={isCollapsed}
                     text={"Events"}
-                    icon={<BsSpeakerFill size={20} />}
+                    icon={<BiWorld size={20} />}
+                />
+                <SidebarButton
+                    isCollapsed={isCollapsed}
+                    text={"Shows"}
+                    icon={<FiRadio size={20} />}
                 />
                 <SidebarButton
                     isCollapsed={isCollapsed}
                     text={"Timewarp"}
                     icon={<BsFillCalendar3WeekFill size={20} />}
-                />
-                <SidebarButton
-                    isCollapsed={isCollapsed}
-                    text={"History"}
-                    icon={<FaHistory size={20} />}
                 />
             </ul>
             <ul className="flex flex-col gap-6">
@@ -107,7 +111,7 @@ export const Sidebar = ({
                 <SidebarButton
                     isCollapsed={isCollapsed}
                     text={"Settings"}
-                    icon={<VscSettings size={20} />}
+                    icon={<FaHistory size={20} />}
                 />
                 <SidebarProfile user={user!} isCollapsed={isCollapsed!} />
             </ul>
