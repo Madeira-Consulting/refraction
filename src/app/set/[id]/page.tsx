@@ -111,7 +111,7 @@ export default function Set({ params }: any) {
         firstName: "John",
         lastName: "Doe",
         email: "johndoe@mail.com",
-        avatar: "https://i1.sndcdn.com/artworks-DoavOeHRnAqXbfO7-6FJP0A-t500x500.jpg",
+        avatar: "pp.jpg",
     };
 
     return (

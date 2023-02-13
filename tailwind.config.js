@@ -11,6 +11,10 @@ module.exports = {
     ],
     theme: {
         extend: {
+            display: ["group-hover"],
+            borderRadius: {
+                "4xl": "2.5rem",
+            },
             colors: {
                 primary: "#46c6f1",
                 dark1: "#1f1d2c",
