@@ -1,17 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import { IoIosArrowDown } from "react-icons/io";
-
-type User = {
-    userName: string;
-    firstName: string;
-    lastName: string;
-    profilePicture: string;
-    mail: string;
-};
+import { UsersRecord } from "../types/pocketbase-types";
 
 interface SidebarProfileProps {
-    user: User;
+    user: UsersRecord;
     isCollapsed: boolean;
 }
 
@@ -26,7 +19,7 @@ export const SidebarProfile = ({ user, isCollapsed }: SidebarProfileProps) => (
             <div className="rounded-xl overflow-clip w-[44px] h-[44px] items-center">
                 {" "}
                 <Image
-                    src={user!.profilePicture}
+                    src={user!.avatar as any}
                     width={48}
                     height={48}
                     alt={"Profile Picture"}
@@ -35,7 +28,7 @@ export const SidebarProfile = ({ user, isCollapsed }: SidebarProfileProps) => (
             <div
                 className={"w-max font-medium " + (isCollapsed ? "hidden" : "")}
             >
-                Hi, {user?.firstName}
+                Hi, {user!.firstName}
             </div>
             {/* <div className={isCollapsed ? "hidden" : ""}>
                 <IoIosArrowDown />

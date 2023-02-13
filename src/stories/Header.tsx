@@ -5,9 +5,9 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 export const Header = () => (
     <header className="flex grow h-min bg-opacity-20 backdrop-blur-lg bg-gradient-to-r from-dark1 via-dark1/50 to-transparent">
-        <div className="bg-gradient-to-b w-full from-dark1 via-dark1/50 to-transparent py-8">
+        <div className="bg-gradient-to-b w-full from-dark1 via-dark1/50 to-transparent py-6">
             <div className="flex flex-row w-full justify-between font-normal gap-4 h-12 pr-5 pl-8">
-                <div className="flex flex-row h-12 w-full gap-12">
+                <div className="flex flex-row h-10 w-full gap-12">
                     <div className="flex flex-row gap-4 items-center">
                         <IoIosArrowBack size={30} />
                         <IoIosArrowForward

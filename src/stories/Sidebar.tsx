@@ -11,17 +11,10 @@ import {
 } from "react-icons/bs";
 import { IoMdMusicalNotes } from "react-icons/io";
 import { FaHistory } from "react-icons/fa";
-
-type User = {
-    userName: string;
-    firstName: string;
-    lastName: string;
-    profilePicture: string;
-    mail: string;
-};
+import { UsersRecord } from "../types/pocketbase-types";
 
 interface SidebarProps {
-    user?: User;
+    user?: UsersRecord;
     isCollapsed?: boolean;
     onLogin: () => void;
     onLogout: () => void;
