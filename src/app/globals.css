@@ -126,12 +126,12 @@ a {
 
 .no-scrollbar::-webkit-scrollbar {
     width: 0px;
-    background-color: #1f1d2c;
+    background-color: #00000000;
 }
 
 body::-webkit-scrollbar {
     width: 0.2em;
-    background-color: #1f1d2c;
+    background-color: #00000000;
 }
 
 body::-webkit-scrollbar-thumb {

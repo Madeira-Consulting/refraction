@@ -124,7 +124,7 @@ export const Tracklist = ({
                 <div className="flex flex-row gap-8">
                     <div className="flex flex-row items-center gap-3">
                         <div className="flex flex-row items-end">
-                            <div className="rounded-full aspect-square">
+                            <div className="rounded-full aspect-square overflow-clip">
                                 {set?.artist ? (
                                     <Image
                                         // src={

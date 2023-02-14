@@ -21,7 +21,7 @@ export const EventButton = ({ image }: EventButtonProps) => (
                         width={250}
                         height={250}
                         alt={"logo"}
-                        className="h-4/12 w-4/12"
+                        className="lg:h-4/12 lg:w-4/12 w-1/2 h-1/2"
                     />
                 </div>
                 <div className="absolute h-screen w-screen bg-dark2 -z-20"></div>

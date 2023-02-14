@@ -3,7 +3,11 @@ import { FiSearch } from "react-icons/fi";
 import { CgBell } from "react-icons/cg";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
-export const Header = ({ isTransparent }) => (
+interface HeaderPropTypes {
+    isTransparent?: boolean;
+}
+
+export const Header = ({ isTransparent }: HeaderPropTypes) => (
     <header
         className={
             "flex grow h-min bg-opacity-20 " +
@@ -20,7 +24,7 @@ export const Header = ({ isTransparent }) => (
                     : "bg-gradient-to-b from-dark1 via-dark1/50 to-transparent")
             }
         >
-            <div className="flex flex-row w-full justify-between font-normal gap-4 h-12 pr-5 pl-8">
+            <div className="flex flex-row w-full justify-between font-normal gap-4 h-12 pr-5 pl-12">
                 <div className="flex flex-row h-10 w-full gap-12">
                     <div className="flex flex-row gap-4 items-center">
                         <IoIosArrowBack size={30} />

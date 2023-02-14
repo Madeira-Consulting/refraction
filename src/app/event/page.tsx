@@ -39,7 +39,6 @@ const getArtists = async () => {
     return events;
 };
 
-const inter = Inter({ subsets: ["latin"] });
 const pb = new PocketBase("http://127.0.0.1:8090");
 pb.autoCancellation(false);
 
@@ -74,7 +73,7 @@ export default function Event({ params }: any) {
                     id="myVideo"
                     className="min-w-full min-h-full"
                 >
-                    <source src="./tml.mp4" type="video/mp4" />
+                    <source src="/tml.mp4" type="video/mp4" />
                 </video>
             </div>
             <div className="fixed z-50">

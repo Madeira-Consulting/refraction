@@ -111,7 +111,7 @@ export default function Set({ params }: any) {
         firstName: "John",
         lastName: "Doe",
         email: "johndoe@mail.com",
-        avatar: "pp.jpg",
+        avatar: "/pp.jpg",
     };
 
     return (
@@ -142,7 +142,7 @@ export default function Set({ params }: any) {
             </div>
 
             <div className={"fixed z-50 w-full " + (true ? "pl-24" : "pl-72")}>
-                <Header />
+                <Header isTransparent={false} />
             </div>
 
             <div className={"bottom-0 fixed z-50 w-full"}>
