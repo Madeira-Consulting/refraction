@@ -70,10 +70,13 @@ export const VideoPlayer = ({
     setPlayer,
     playbackStatus,
     setPlaybackStatus,
+    fullScreen,
+    setFullScreen,
     url,
 }: any) => {
     const [mute, setMute] = React.useState(false);
     const playerRef = React.useRef<any>(null);
+    const ytRef = React.useRef<any>(null);
     const [currentTime, setCurrentTime] = useState(0);
 
     const handleStateChange = useCallback(
@@ -88,6 +91,25 @@ export const VideoPlayer = ({
         [setPlaybackStatus]
     );
 
+    const handleFullScreen = () => {
+        if (playerRef.current.requestFullscreen) {
+            playerRef.current.requestFullscreen();
+        } else if (playerRef.current.mozRequestFullScreen) {
+            playerRef.current.mozRequestFullScreen();
+        } else if (playerRef.current.webkitRequestFullscreen) {
+            playerRef.current.webkitRequestFullscreen();
+        } else if (playerRef.current.msRequestFullscreen) {
+            playerRef.current.msRequestFullscreen();
+        }
+    };
+
+    useEffect(() => {
+        if (!fullScreen) {
+            handleFullScreen();
+        } else {
+        }
+    }, [fullScreen, setFullScreen]);
+
     //init state for video after component mounted
     useEffect(() => {
         handlePlay(player);
@@ -100,7 +122,7 @@ export const VideoPlayer = ({
 
     useEffect(() => {
         (window as any).onYouTubeIframeAPIReady = () => {
-            const player = new (window as any).YT.Player(playerRef.current, {
+            const player = new (window as any).YT.Player(ytRef.current, {
                 events: {
                     onReady: () => {
                         console.log("Player is ready");
@@ -135,6 +157,7 @@ export const VideoPlayer = ({
                 onClick={() =>
                     playbackStatus ? handlePause(player) : handlePlay(player)
                 }
+                ref={playerRef}
             >
                 <div
                     className={
@@ -159,7 +182,7 @@ export const VideoPlayer = ({
                     <Image src={cover} fill alt={"cover"} />
                 </div>
                 <iframe
-                    ref={playerRef}
+                    ref={ytRef}
                     style={{ pointerEvents: "none" }}
                     width={"100%"}
                     height={"100%"}

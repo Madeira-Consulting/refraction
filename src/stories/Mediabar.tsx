@@ -23,6 +23,8 @@ export const Mediabar = ({
     setPlaybackStatus,
     currentTrack,
     set,
+    fullScreen,
+    setFullScreen,
 }: any) => {
     const [floating, setFloating] = React.useState(false);
     const [mini, setMini] = React.useState(false);
@@ -199,12 +201,15 @@ export const Mediabar = ({
                             </span>
                             {/* toggle between mini false && floating false, mini false && floating true, mini true && floating true with on click event */}
 
-                            <div onClick={() => setFloating(!floating)}>
+                            {/* <div onClick={() => setFloating(!floating)}>
                                 {floating ? (
                                     <BiVerticalCenter />
                                 ) : (
                                     <BiExpandAlt />
                                 )}
+                            </div> */}
+                            <div onClick={() => setFullScreen(!fullScreen)}>
+                                {fullScreen ? <BiExpandAlt /> : <BiExpandAlt />}
                             </div>
                         </div>
                     </div>

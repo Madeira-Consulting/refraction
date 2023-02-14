@@ -5,7 +5,7 @@ import PocketBase from "pocketbase";
 
 import _ from "lodash";
 import { Sidebar } from "@/stories/Sidebar";
-import { Header } from "@/stories/Header";
+import Header from "@/stories/Header";
 import { AiFillEye } from "react-icons/ai";
 import { BsPlusLg, BsFillCalendarDateFill } from "react-icons/bs";
 import { FaLocationArrow } from "react-icons/fa";
@@ -172,6 +172,7 @@ export default function Event({ params }: any) {
                                                   "/" +
                                                   event.logo
                                               }
+                                              link={"./event/" + event.id}
                                           />
                                       );
                                   })

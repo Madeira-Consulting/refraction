@@ -5,7 +5,7 @@ import PocketBase from "pocketbase";
 
 import _ from "lodash";
 import { Sidebar } from "@/stories/Sidebar";
-import { Header } from "@/stories/Header";
+import Header from "@/stories/Header";
 import { AiFillEye } from "react-icons/ai";
 import { BsPlusLg, BsFillCalendarDateFill } from "react-icons/bs";
 import { FaLocationArrow } from "react-icons/fa";
@@ -51,6 +51,7 @@ export default function Set({ params }: any) {
     const [currentTrack, setCurrentTrack] = useState(false);
     const [nextTrack, setNextTrack] = useState(false);
     const [previousTrack, setPreviousTrack] = useState(false);
+    const [fullScreen, setFullScreen] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -154,6 +155,8 @@ export default function Set({ params }: any) {
                     setPlaybackStatus={setPlaybackStatus}
                     currentTrack={currentTrack}
                     set={set}
+                    fullScreen={fullScreen}
+                    setFullScreen={setFullScreen}
                 />
             </div>
             <div
@@ -179,6 +182,8 @@ export default function Set({ params }: any) {
                                         setPlayer={setPlayer}
                                         playbackStatus={playbackStatus}
                                         setPlaybackStatus={setPlaybackStatus}
+                                        fullScreen={fullScreen}
+                                        setFullScreen={setFullScreen}
                                     />
                                 ) : (
                                     <> </>
