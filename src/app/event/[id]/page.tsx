@@ -1,29 +1,17 @@
 "use client";
 import Image from "next/image";
-import { Inter } from "@next/font/google";
 import PocketBase from "pocketbase";
 
 import _ from "lodash";
-import { Sidebar } from "@/stories/Sidebar";
-import { AiFillEye, AiOutlineClockCircle } from "react-icons/ai";
+import { AiFillEye } from "react-icons/ai";
 import {
-    BsPlusLg,
-    BsFillCalendarDateFill,
     BsFillCalendar3WeekFill,
 } from "react-icons/bs";
-import { FaLocationArrow } from "react-icons/fa";
-import { MdScreenShare } from "react-icons/md";
 import { RiHeart3Fill } from "react-icons/ri";
 import { useEffect, useState } from "react";
-import { VideoPlayer } from "@/stories/VideoPlayer";
-import { Mediabar } from "@/stories/Mediabar";
-import { Tracklist } from "@/stories/Tracklist";
 import { fDate, fNumber } from "@/app/pages/api/helper";
-import { EventButton } from "@/stories/EventButton";
 import { ArtistButton } from "@/stories/ArtistButton";
-import { TracklistButton } from "@/stories/TracklistButton";
 import { ImageButton } from "@/stories/ImageButton";
-import { BiDotsVerticalRounded } from "react-icons/bi";
 import { OverlayArtists } from "@/stories/OverlayArtist";
 import Link from "next/link";
 

@@ -12,18 +12,20 @@ import { FaLocationArrow } from "react-icons/fa";
 import { MdScreenShare } from "react-icons/md";
 import { RiHeart3Fill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
-import { handleAttach, VideoPlayer } from "@/stories/VideoPlayer";
+import { handleAttach, handleSeek, VideoPlayer } from "@/stories/VideoPlayer";
 import { Mediabar } from "@/stories/Mediabar";
 import { Tracklist } from "@/stories/Tracklist";
 import { fDate, fNumber } from "@/app/pages/api/helper";
 import Plyr from "plyr";
 import { VideoReference } from "@/stories/VideoReference";
+import { useStore } from "@/store";
 
 const getSet = async (id: string) => {
     const record = await pb.collection("sets").getOne(id, {
         expand: "artist,venue,tracks",
     });
     console.log(record);
+
     return record;
 };
 
@@ -39,42 +41,44 @@ const findCurrentTrack = (tracks: any, time: number) => {
     return currentTrack;
 };
 
-const inter = Inter({ subsets: ["latin"] });
 const pb = new PocketBase("http://127.0.0.1:8090");
-const player = new Plyr("#player");
 
 pb.autoCancellation(false);
 
 export default function Set({ params }: any) {
     const setId = params.id;
-    const [set, setSet] = useState<any>();
+    const set = useStore.getState().set.set;
+    const currentTrack = useStore.getState().currentTrack;
+    const player = useStore.getState().player.player;
 
     const [seek, setSeek] = useState(false);
-    const [currentTrack, setCurrentTrack] = useState(false);
-
     const [fullScreen, setFullScreen] = useState(false);
 
     useEffect(() => {
         (async () => {
-            const setPromise = await getSet(setId);
-            setSet(setPromise);
+            const set = await getSet(setId);
+            useStore.setState({
+                set: {
+                    set: set,
+                },
+            });
         })();
-    }, [setId]);
+    }, []);
 
     // //update current track every second
     useEffect(() => {
         const interval = setInterval(() => {
             set?.expand.tracks && player?.getCurrentTime
-                ? setCurrentTrack(
-                      findCurrentTrack(
+                ? useStore.setState({
+                      currentTrack: findCurrentTrack(
                           set?.expand.tracks,
                           player?.getCurrentTime()
-                      )
-                  )
+                      ),
+                  })
                 : console.log("no tracks or player");
         }, 1000);
         return () => clearInterval(interval);
-    }, [player, set?.expand.tracks]);
+    }, [player, handleSeek]);
 
     // const searchTrack = async (artist: any, title: any) => {
     //     const query = encodeURIComponent(`${artist} ${title}`);
@@ -121,7 +125,6 @@ export default function Set({ params }: any) {
                         setSeek={setSeek}
                         setId={setId}
                         pb={pb}
-                        player={player}
                     />
                 </div>
                 <div className="col-span-7">

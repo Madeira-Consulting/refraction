@@ -14,9 +14,9 @@ import { FaBackward, FaForward } from "react-icons/fa";
 import { BiExpandAlt, BiVerticalCenter } from "react-icons/bi";
 import { handlePause, handlePlay, handleSeek } from "./VideoPlayer";
 import { fTime } from "@/app/pages/api/helper";
+import { useStore } from "@/store";
 
 export const Mediabar = ({
-    player,
     playbackStatus,
     currentTrack,
     set,
@@ -28,10 +28,12 @@ export const Mediabar = ({
     const [currentTime, setCurrentTime] = React.useState(0);
     const [pictureToggle, setPictureToggle] = React.useState(true);
 
+    const player = useStore.getState().player.player;
+
     //update current time every second
     React.useEffect(() => {
         const interval = setInterval(() => {
-            if (player) {
+            if (player!) {
                 setCurrentTime(player?.getCurrentTime());
             }
         }, 1000);

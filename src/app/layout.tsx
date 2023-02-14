@@ -4,6 +4,7 @@ import { Mediabar } from "@/stories/Mediabar";
 import { Sidebar } from "@/stories/Sidebar";
 import { handleVideoChange, VideoPlayer } from "@/stories/VideoPlayer";
 import { useEffect, useRef, useState } from "react";
+import { useStore } from "zustand/react";
 import "./globals.css";
 
 export default function RootLayout({
@@ -22,7 +23,6 @@ export default function RootLayout({
     const [seek, setSeek] = useState(false);
     const [player, setPlayer] = useState<any>(null);
     const [playbackStatus, setPlaybackStatus] = useState(false);
-    const [currentTrack, setCurrentTrack] = useState(false);
     const scrollRef = useRef(null);
 
     const [fullScreen, setFullScreen] = useState(false);
@@ -75,9 +75,6 @@ export default function RootLayout({
                         <div className={"z-50 absolute"}>
                             <VideoPlayer
                                 cover={"/poster.jpg"}
-                                url={
-                                    "https://www.youtube.com/embed/1yS_r3HytUo"
-                                }
                                 seek={seek}
                                 player={player}
                                 setPlayer={setPlayer}
@@ -100,7 +97,7 @@ export default function RootLayout({
                                     player.unMute();
                                 }}
                             >
-                                <Header isTransparent={true} />
+                                <Header />
                             </div>
 
                             <div className={"bottom-0 fixed z-50 w-full"}>

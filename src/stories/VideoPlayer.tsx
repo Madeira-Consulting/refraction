@@ -1,6 +1,7 @@
 "use client";
 
 import { fTime } from "@/app/pages/api/helper";
+import { useStore } from "@/store";
 import Image from "next/image";
 import Script from "next/script";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -99,7 +100,6 @@ export const handleAttach = (
 export const VideoPlayer = ({
     cover,
     seek,
-    player,
     setPlayer,
     playbackStatus,
     setPlaybackStatus,
@@ -107,20 +107,23 @@ export const VideoPlayer = ({
     setFullScreen,
     url,
     scrollRef,
-    isAttached,
-    setIsAttached,
     width,
     setWidth,
 }: any) => {
     const playerRef = React.useRef<any>(null);
     const ytRef = React.useRef<any>(null);
-    const [currentTime, setCurrentTime] = useState(0);
+
     const [detachtedPosition, setDetachtedPosition] = useState({
         x: 320,
         y: 180,
     });
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const elementRef = document.getElementById("playerref");
+
+    const isAttached = useStore.getState().player.isAttached;
+    const setIsAttached = useStore.getState().player.setIsAttached;
+    const player = useStore.getState().player.player;
+    const set = useStore.getState().set.set;
 
     useEffect(() => {
         const observer = new ResizeObserver((entries) => {
@@ -193,11 +196,17 @@ export const VideoPlayer = ({
                 events: {
                     onReady: () => {
                         console.log("Player is ready");
-                        setPlayer(player);
+                        useStore.setState({
+                            player: {
+                                player: player,
+                                isAttached: isAttached,
+                                setIsAttached: setIsAttached,
+                            },
+                        });
+                        // handleUnmute(player);
                         handleDuration(player);
                     },
                     onStateChange: (event: any) => {
-                        setCurrentTime(player.getCurrentTime());
                         handleStateChange(event);
                     },
                 },
@@ -333,7 +342,8 @@ export const VideoPlayer = ({
                             height={"100%"}
                             src={
                                 "https://www.youtube.com/embed/" +
-                                url +
+                                // set?.video +
+                                "4gUpPHf3MpQ" +
                                 "?controls=0&autoplay=1&mute=1&enablejsapi=1"
                             }
                             title="YouTube video player"

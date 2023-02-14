@@ -1,23 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiPyramid, BiDotsVerticalRounded } from "react-icons/bi";
 import { BsPlusLg, BsSpotify } from "react-icons/bs";
 import { MdOutlinePlaylistAdd } from "react-icons/md";
 import cheerio, { AnyNode } from "cheerio";
 import { fTime, fDate, fNumber } from "@/app/pages/api/helper";
-import { handleUnmute } from "./VideoPlayer";
+import { handleSeek, handleUnmute } from "./VideoPlayer";
+import { useStore } from "@/store";
 
-export const Tracklist = ({
-    set,
-    currentTrack,
-    setSeek,
-    setId,
-    pb,
-    player,
-}: any) => {
+export const Tracklist = ({ setSeek, setId, pb }: any) => {
     const [requestedTracklist, setRequestedTracklist] = useState(false);
+    const currentTrack = useStore.getState().currentTrack;
 
     //parse MM:SS to seconds
     const parseTime = (time: string) => {
@@ -116,6 +111,9 @@ export const Tracklist = ({
         console.log("Successfully updated set with tracks!");
     };
 
+    const player = useStore.getState().player.player;
+    const set = useStore.getState().set.set;
+
     return (
         <div className="rounded-2xl to-transparent relative overflow-clip h-full ">
             {/* <div className="col-span-3 bg-white flex flex-col h-1/2 rounded-2xl overflow-clip"> */}
@@ -180,7 +178,9 @@ export const Tracklist = ({
                                         : "hover:bg-dark1/50")
                                 }
                                 key={track.tracknumber}
-                                onClick={() => setSeek(track.timestamp)}
+                                onClick={() =>
+                                    handleSeek(player, track.timestamp)
+                                }
                             >
                                 <div className="flex w-8 mr-8 flex-row justify-center">
                                     {track != currentTrack ? (
