@@ -19,7 +19,7 @@ export const SidebarProfile = ({ user, isCollapsed }: SidebarProfileProps) => (
             <div className="rounded-xl overflow-clip w-[44px] h-[44px] items-center">
                 {" "}
                 <Image
-                    src={user!.avatar as any}
+                    src={user?.avatar as any}
                     width={48}
                     height={48}
                     alt={"Profile Picture"}
@@ -28,7 +28,7 @@ export const SidebarProfile = ({ user, isCollapsed }: SidebarProfileProps) => (
             <div
                 className={"w-max font-medium " + (isCollapsed ? "hidden" : "")}
             >
-                Hi, {user!.firstName}
+                Hi, {user?.firstName}
             </div>
             {/* <div className={isCollapsed ? "hidden" : ""}>
                 <IoIosArrowDown />

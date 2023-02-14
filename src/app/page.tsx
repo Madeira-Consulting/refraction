@@ -1,188 +1,170 @@
 "use client";
 import Image from "next/image";
 import { Inter } from "@next/font/google";
-import styles from "./page.module.css";
 import PocketBase from "pocketbase";
-import cheerio, { AnyNode } from "cheerio";
+
 import _ from "lodash";
-import lodash from "lodash";
+import { Sidebar } from "@/stories/Sidebar";
+import Header from "@/stories/Header";
+import { AiFillEye } from "react-icons/ai";
+import { BsPlusLg, BsFillCalendarDateFill } from "react-icons/bs";
+import { FaLocationArrow } from "react-icons/fa";
+import { MdScreenShare } from "react-icons/md";
+import { RiHeart3Fill } from "react-icons/ri";
+import { useEffect, useState } from "react";
+import { VideoPlayer } from "@/stories/VideoPlayer";
+import { Mediabar } from "@/stories/Mediabar";
+import { Tracklist } from "@/stories/Tracklist";
+import { fDate, fNumber } from "@/app/pages/api/helper";
+import { EventButton } from "@/stories/EventButton";
+import { ArtistButton } from "@/stories/ArtistButton";
 
-const inter = Inter({ subsets: ["latin"] });
+const getEvents = async () => {
+    const events = await pb
+        .collection("events")
+        .getFullList(200 /* batch size */, {
+            sort: "created",
+        });
+    console.log(events);
+    return events;
+};
+
+const getArtists = async () => {
+    const events = await pb
+        .collection("artists")
+        .getFullList(200 /* batch size */, {
+            sort: "created",
+        });
+    console.log(events);
+    return events;
+};
+
 const pb = new PocketBase("http://127.0.0.1:8090");
+pb.autoCancellation(false);
 
-export default function Home() {
-    const scrapeTracklist = (html: string | AnyNode | AnyNode[] | Buffer) => {
-        const $ = cheerio.load(html);
-        const tracks: {
-            time: string;
-            trackNumber: string;
-            title: string;
-            artist: string;
-        }[] = [];
-        $("ol#TheList li").each((i, el) => {
-            const time = $(el).find(".time-item").text().trim();
-            const trackNumber = $(el).find(".track-number").text().trim();
-            const title = $(el).find(".title").text().trim();
-            const artist = $(el).find(".artist").text().trim();
-            tracks.push({ time, trackNumber, title, artist });
-        });
-        console.log(tracks);
-        return tracks;
+export default function Event({ params }: any) {
+    const [events, setEvents] = useState<any>([]);
+    const [artists, setArtists] = useState<any>([]);
+
+    useEffect(() => {
+        (async () => {
+            const eventsPromise = await getEvents();
+            const artistsPromise = await getArtists();
+            setEvents(eventsPromise);
+            setArtists(artistsPromise);
+        })();
+    }, []);
+
+    const user = {
+        username: "johndoe",
+        firstName: "John",
+        lastName: "Doe",
+        email: "johndoe@mail.com",
+        avatar: "/pp.jpg",
     };
-
-    const getTracklist = () => {
-        console.log("wuwu");
-        const options = {
-            method: "GET",
-            headers: { origin: "localhost:3030" },
-        };
-
-        fetch(
-            "http://localhost:8080/https://www.livetracklist.com/heldeep-radio-450-oliver-heldens/",
-            options
-        )
-            //use the response to scrapTracklist
-            .then((response) => response.text())
-            .then((html) => scrapeTracklist(html))
-            .catch((err) => console.error(err));
-        console.log("wuwu2");
-    };
-
-    const searchTrack = async (artist: any, title: any) => {
-        const query = encodeURIComponent(`${artist} ${title}`);
-        const response = await fetch(
-            `https://api.discogs.com/database/search?q=${query}&type=release&token=jXkALcplBntIYPDuIexEtmrQVqNaAJnlGSBzxVyA`
-        );
-        const data = await response.json();
-        const releases = data.results;
-
-        console.log(releases);
-
-        //get the cover_image from all releases and return them in an array
-        const coverImages = releases.map((release: any) => {
-            return release.cover_image;
-        });
-
-        const release: any = lodash.pick(
-            releases[0],
-            "country",
-            "title",
-            "genre",
-            "style",
-            "year",
-            "uri"
-        );
-
-        release.coverImages = coverImages;
-
-        console.log(release);
-
-        return releases ? release : null;
-    };
-
-    const getMix = async (id: string) => {
-        const record = await pb.collection("mixes").getOne(id, {
-            expand: "artist",
-        });
-        console.log(record);
-    };
-
-    getMix("ap2461g1o889new");
 
     return (
-        <main className={styles.main}>
-            <div className={styles.description}>
-                <p>
-                    Get started by editing this&nbsp;
-                    <code className={styles.code}>src/app/page.tsx</code>
-                </p>
-                <div>
-                    By{" "}
-                    <Image
-                        src="/vercel.svg"
-                        alt="Vercel Logo"
-                        className={styles.vercelLogo}
-                        width={100}
-                        height={24}
-                        priority
-                    />
-                </div>
+        <div className="flex flex-row w-screen bg-cover duration-500">
+            <div className="absolute min-h-full w-screen">
+                <video
+                    autoPlay
+                    muted
+                    loop
+                    id="myVideo"
+                    className="min-h-full h-full w-screen"
+                >
+                    <source src="/tml.mp4" type="video/mp4" />
+                </video>
             </div>
 
-            <button
-                onClick={(e) => {
-                    // e.target.innerHTML = getTracklist();
-                    // getTracklist();
-                    searchTrack("HI-LO & Space 92", "Mercury");
-                }}
+            <div
+                className={
+                    "w-full z-30 bg-gradient-to-r from-dark1 to-transparent "
+                }
             >
-                WORK
-            </button>
-            <div className={styles.center}>
-                <Image
-                    className={styles.logo}
-                    src="/next.svg"
-                    alt="Next.js Logo"
-                    width={180}
-                    height={37}
-                    priority
-                />
-                <div className={styles.thirteen}>
-                    <Image
-                        src="/thirteen.svg"
-                        alt="13"
-                        width={40}
-                        height={31}
-                        priority
-                    />
+                <div
+                    className={
+                        "w-full h-full -z-10 bg-gradient-to-t from-dark1 to-dark1/50 fixed"
+                    }
+                ></div>
+                <div
+                    className={
+                        "w-full h-full -z-10 bg-gradient-to-t from-dark1 via-dark1 to-transparent fixed"
+                    }
+                ></div>
+                <div
+                    className={
+                        "w-full z-30 bg-gradient-to-t from-dark1 to-transparent flex flex-col gap-5 justify-end"
+                    }
+                >
+                    {/* <div className={"pr-8  " + (true ? "pl-32" : "pl-72")}>
+                    <span className="text-white font-bold text-3xl">
+                        Hot artists
+                    </span>
+
+                    <div className="flex flex-row flex-wrap gap-5 duration-500 py-5">
+                        {artists.length > 0
+                            ? artists.map((artist: any) => {
+                                  return (
+                                      <ArtistButton
+                                          key={artist.id}
+                                          image={
+                                              "http://localhost:8090/api/files/" +
+                                              artist.collectionId +
+                                              "/" +
+                                              artist.id +
+                                              "/" +
+                                              artist.profilepicture
+                                          }
+                                          text={artist.name}
+                                      />
+                                  );
+                              })
+                            : console.log("loading")}
+                    </div>
+                </div> */}
+
+                    <div
+                        className={
+                            "pr-16 pl-16 h-screen flex flex-col justify-end pb-32"
+                        }
+                    >
+                        <div className="flex flex-col pb-24 z-100 text-4xl md:text-5xl lg:text-6xl">
+                            <span className="text-white text- font-bold">
+                                {/* add html whitespace */}
+                                Welcome back,&nbsp;
+                            </span>
+                            <span className="text-white font-bold">
+                                Marvin!
+                            </span>
+                        </div>
+                        <span className="text-white font-bold text-2xl sm:text-3xl md:text-4xl">
+                            Choose your weapon
+                        </span>
+
+                        <div className="flex flex-row w-full overflow-x-scroll gap-5 duration-500 py-8 no-scrollbar">
+                            {events.length > 0
+                                ? events.map((event: any) => {
+                                      return (
+                                          <EventButton
+                                              key={event.id}
+                                              image={
+                                                  "http://localhost:8090/api/files/" +
+                                                  event.collectionId +
+                                                  "/" +
+                                                  event.id +
+                                                  "/" +
+                                                  event.logo
+                                              }
+                                              link={"./event/" + event.id}
+                                          />
+                                      );
+                                  })
+                                : console.log("loading")}
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div className={styles.grid}>
-                <a
-                    href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                    className={styles.card}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <h2 className={inter.className}>
-                        Docs <span>-&gt;</span>
-                    </h2>
-                    <p className={inter.className}>
-                        Find in-depth information about Next.js features and
-                        API.
-                    </p>
-                </a>
-
-                <a
-                    href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                    className={styles.card}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <h2 className={inter.className}>
-                        Templates <span>-&gt;</span>
-                    </h2>
-                    <p className={inter.className}>
-                        Explore the Next.js 13 playground.
-                    </p>
-                </a>
-
-                <a
-                    href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                    className={styles.card}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <h2 className={inter.className}>
-                        Deploy <span>-&gt;</span>
-                    </h2>
-                    <p className={inter.className}>
-                        Instantly deploy your Next.js site to a shareable URL
-                        with Vercel.
-                    </p>
-                </a>
-            </div>
-        </main>
+        </div>
     );
 }

@@ -16,11 +16,8 @@ import { handlePause, handlePlay, handleSeek } from "./VideoPlayer";
 import { fTime } from "@/app/pages/api/helper";
 
 export const Mediabar = ({
-    play,
-    setPlay,
     player,
     playbackStatus,
-    setPlaybackStatus,
     currentTrack,
     set,
     fullScreen,
@@ -178,6 +175,7 @@ export const Mediabar = ({
                                             player,
                                             player?.getDuration() * percent
                                         );
+                                        handlePlay(player);
                                     }}
                                 >
                                     {/* signal progress with gradient  */}

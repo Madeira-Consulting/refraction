@@ -5,9 +5,12 @@ import PocketBase from "pocketbase";
 
 import _ from "lodash";
 import { Sidebar } from "@/stories/Sidebar";
-import { Header } from "@/stories/Header";
 import { AiFillEye, AiOutlineClockCircle } from "react-icons/ai";
-import { BsPlusLg, BsFillCalendarDateFill } from "react-icons/bs";
+import {
+    BsPlusLg,
+    BsFillCalendarDateFill,
+    BsFillCalendar3WeekFill,
+} from "react-icons/bs";
 import { FaLocationArrow } from "react-icons/fa";
 import { MdScreenShare } from "react-icons/md";
 import { RiHeart3Fill } from "react-icons/ri";
@@ -22,6 +25,7 @@ import { TracklistButton } from "@/stories/TracklistButton";
 import { ImageButton } from "@/stories/ImageButton";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { OverlayArtists } from "@/stories/OverlayArtist";
+import Link from "next/link";
 
 const getEvent = async (id: string) => {
     const event = await pb.collection("events").getOne(id, {
@@ -39,6 +43,15 @@ const getArtists = async () => {
         });
     console.log(events);
     return events;
+};
+
+const getSets = async () => {
+    const sets = await pb.collection("sets").getFullList(200 /* batch size */, {
+        sort: "created",
+        expand: "artist,venue,tracks,event",
+    });
+    console.log(sets);
+    return sets;
 };
 
 const getEvents = async () => {
@@ -59,6 +72,7 @@ export default function Event({ params }: any) {
     const [event, setEvent] = useState<any>([]);
     const [events, setEvents] = useState<any>([]);
     const [artists, setArtists] = useState<any>([]);
+    const [sets, setSets] = useState<any>([]);
     const [overlay, setOverlay] = useState<boolean>(false);
 
     useEffect(() => {
@@ -69,6 +83,8 @@ export default function Event({ params }: any) {
             setEvents(eventsPromise);
             const artistsPromise = await getArtists();
             setArtists(artistsPromise);
+            const setsPromise = await getSets();
+            setSets(setsPromise);
         })();
     }, []);
 
@@ -81,40 +97,10 @@ export default function Event({ params }: any) {
     };
 
     return (
-        <div className="flex flex-row w-screen bg-cover duration-500 relative">
-            <div className="absolute min-w-full min-h-full">
-                <video
-                    autoPlay
-                    muted
-                    loop
-                    id="myVideo"
-                    className="min-w-full min-h-full"
-                >
-                    <source src="/tml.mp4" type="video/mp4" />
-                </video>
-            </div>
-            <div className="fixed z-50">
-                <Sidebar
-                    user={user}
-                    isCollapsed={true}
-                    onLogin={function (): void {
-                        throw new Error("Function not implemented.");
-                    }}
-                    onLogout={function (): void {
-                        throw new Error("Function not implemented.");
-                    }}
-                    onProfile={function (): void {
-                        throw new Error("Function not implemented.");
-                    }}
-                />
-            </div>
-
-            <div className={"fixed z-50 w-full " + (true ? "pl-24" : "pl-72")}>
-                <Header isTransparent={true} />
-            </div>
+        <>
             <div
                 className={
-                    "fixed z-50 right-0 w-3/12 h-screen shadow-lg shadow-black/10 duration-500 " +
+                    "fixed z-40 right-0 max-w-screen-sm h-screen shadow-lg shadow-black/10 duration-500 " +
                     (overlay ? "block" : "hidden")
                 }
             >
@@ -125,30 +111,36 @@ export default function Event({ params }: any) {
                     <OverlayArtists sets={artists} />
                 </div>
             </div>
-            <div className={"bottom-0 fixed z-50 w-full"}>
-                <Mediabar
-                    play={null}
-                    setPlay={null}
-                    player={null}
-                    playbackStatus={null}
-                    setPlaybackStatus={null}
-                    currentTrack={null}
-                    set={null}
-                />
-            </div>
+            <div className="flex flex-row w-max h-max duration-500">
+                <div className="absolute w-full h-full">
+                    <video
+                        autoPlay
+                        muted
+                        loop
+                        id="myVideo"
+                        className="object-cover w-full h-full"
+                    >
+                        <source src="/tml.mp4" type="video/mp4" />
+                    </video>
+                </div>
 
-            <div
-                className={
-                    "w-full h-screen z-30 bg-gradient-to-r from-dark1 to-dark1/30 "
-                }
-            >
-                <div
-                    className={
-                        "w-full z-30 pt-36 bg-gradient-to-t from-dark1 via-dark1 to-dark1/90 pb-44 flex flex-col gap-5"
-                    }
-                >
-                    <div className={"pr-12  " + (true ? "pl-36" : "pl-72")}>
-                        <div className="grid grid-cols-12 gap-x-16 gap-y-8">
+                <div className={"w-full z-30 absolute backdrop-blur-md"}>
+                    <div
+                        className={
+                            "w-full h-full -z-10 bg-gradient-to-t from-dark1 to-dark1/30 fixed"
+                        }
+                    ></div>
+                    <div
+                        className={
+                            "w-full h-full -z-10 bg-gradient-to-t from-dark1 via-dark1 to-transparent fixed"
+                        }
+                    ></div>
+                    <div
+                        className={
+                            "w-full z-30 bg-gradient-to-r from-dark1 via-dark1/70 to-dark1/90 flex flex-col gap-5 justify-end"
+                        }
+                    >
+                        <div className="grid grid-cols-12 gap-x-16 gap-y-8 pb-36 pt-32 pl-16 w-max">
                             <div className="col-span-12">
                                 <span className="text-5xl font-bold">
                                     {event.name} 🇧🇪
@@ -247,40 +239,101 @@ export default function Event({ params }: any) {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-span-9 aspect-video">
-                                <span className="text-3xl font-bold">
+                            <div className="col-span-9">
+                                <div className="flex flex-row items-center justify-between">
+           <span className="text-3xl font-bold">
                                     Most Popular
                                 </span>
+                                     <div className="flex flex-row gap-2 justify-between rounded-full my-4 items-center">
+               <div className=" border-b-4 border-white  font-bold text-white/  flex items-center py-2 px-5 w-36 flex-row justify-center">
+                    Most Popular
+                </div>
+                <div className=" border-b-4 border-white/50  font-bold text-white/50  flex items-center py-2 px-5 w-36 flex-row justify-center">
+                    Stages
+                </div>
+                <div className=" border-b-4 border-white/50  font-bold text-white/50  flex items-center py-2 px-5 w-36 flex-row justify-center">
+                    History
+                </div>
+            </div>
+                                </div>
+                     
                                 <div className="flex flex-col w-full overflow-x-scroll gap-5 duration-500 py-8 no-scrollbar">
-                                    {events.length > 0
-                                        ? events.map((event: any) => {
+                                    {sets.length > 0
+                                        ? sets.map((set: any) => {
                                               return (
                                                   <div
                                                       className="flex flex-row gap-20 justify-between items-center"
-                                                      key={event.id}
+                                                      key={set.id}
                                                   >
-                                                      <div className="flex flex-row items-center gap-12 w-fit">
-                                                          <div className="w-14 h-14 hover:bg-dark1/50">
+                                                      <div className="flex flex-row items-center gap-12 w-full">
+                                                          <div className="w-28 hover:bg-dark1/50">
                                                               <ImageButton
                                                                   isSquare={
-                                                                      true
+                                                                      false
                                                                   }
+                                                                  rounded={"lg"}
                                                                   image={
-                                                                      "/poster.jpg"
+                                                                      "http://localhost:8090/api/files/" +
+                                                                      set.collectionId +
+                                                                      "/" +
+                                                                      set.id +
+                                                                      "/" +
+                                                                      set.thumbnail
+
                                                                   }
                                                               />
                                                           </div>
                                                           <div className="text-lg font-bold flex flex-col whitespace-nowrap">
-                                                              <span>
-                                                                  3 Are Legend
-                                                              </span>
+                                                              <Link
+                                                                  href={
+                                                                        "/set/" +
+                                                                        set.id
+                                                                    }
+                                                                  
+                                                              >
+                                                                  
+                                                                  {
+                                                                      set
+                                                                          ?.expand
+                                                                          .artist[0]
+                                                                          .name
+                                                                  }
+                                                              </Link>
                                                               <span className="text-sm font-normal">
-                                                                  21.07.2021
+                                                                  <div className="text-sm flex flex-col lg:flex-row items-center gap-3 text-white/50">
+                                                                      <div className="flex row gap-2 items-center">
+                                                                          <RiHeart3Fill
+                                                                              size={
+                                                                                  15
+                                                                              }
+                                                                          />
+                                                                          {fNumber(
+                                                                              set?.likes
+                                                                          )}
+                                                                      </div>
+                                                                      <div className="flex row gap-2 items-center">
+                                                                          <AiFillEye
+                                                                              size={
+                                                                                  15
+                                                                              }
+                                                                          />
+                                                                          {fNumber(
+                                                                              set?.views
+                                                                          )}
+                                                                      </div>
+                                                                  </div>
                                                               </span>
                                                           </div>
                                                       </div>
                                                       <span className="text-lg col-span-1">
-                                                          Mainstage
+                                                          {set?.expand?.venue >
+                                                          0
+                                                              ? set?.expand
+                                                                    ?.venue[0]
+                                                                    .name
+                                                              : set?.expand
+                                                                    ?.event?
+                                                                    .name}
                                                       </span>
                                                       <div className="flex-grow border border-white/10 hidden xl:block"></div>
                                                       <div
@@ -291,23 +344,20 @@ export default function Event({ params }: any) {
                                                               )
                                                           }
                                                       >
-                                                          64 Tracks
+                                                          {set?.expand?.tracks >
+                                                          0
+                                                              ? set?.expand
+                                                                    ?.tracks
+                                                                    .length +
+                                                                " Tracks"
+                                                              : "..."}
                                                       </div>
-                                                      <div className="text-lg flex flex-col lg:flex-row items-center gap-6">
-                                                          <div className="flex row gap-2 items-center">
-                                                              <RiHeart3Fill
-                                                                  size={20}
-                                                              />
-                                                              420
-                                                          </div>
-                                                          <div className="flex row gap-2 items-center">
-                                                              <AiFillEye
-                                                                  size={20}
-                                                              />
-                                                              10
-                                                          </div>
+                                                      <div className="flex flex-row items-center gap-3">
+                                                          <BsFillCalendar3WeekFill />
+                                                          {set.date
+                                                              ? fDate(set.date)
+                                                              : "..."}
                                                       </div>
-
                                                       <span className="text-lg whitespace-nowrap">
                                                           1h 30m
                                                       </span>
@@ -315,37 +365,37 @@ export default function Event({ params }: any) {
                                               );
                                           })
                                         : console.log("loading")}
-                                </div>
-                                <div className="">
-                                    <div className="text-white font-bold text-3xl py-2">
-                                        Artists
-                                    </div>
+                                    <div className="">
+                                        <div className="text-white font-bold text-3xl py-2">
+                                            Artists
+                                        </div>
 
-                                    <div className="flex flex-row flex-wrap gap-5 duration-500 py-5">
-                                        {artists.length > 0
-                                            ? artists.map((artist: any) => {
-                                                  return (
-                                                      <ArtistButton
-                                                          key={artist.id}
-                                                          image={
-                                                              "http://localhost:8090/api/files/" +
-                                                              artist.collectionId +
-                                                              "/" +
-                                                              artist.id +
-                                                              "/" +
-                                                              artist.profilepicture
-                                                          }
-                                                          text={artist.name}
-                                                      />
-                                                  );
-                                              })
-                                            : console.log("loading")}
+                                        <div className="flex flex-row flex-wrap gap-5 duration-500 py-5">
+                                            {artists.length > 0
+                                                ? artists.map((artist: any) => {
+                                                      return (
+                                                          <ArtistButton
+                                                              key={artist.id}
+                                                              image={
+                                                                  "http://localhost:8090/api/files/" +
+                                                                  artist.collectionId +
+                                                                  "/" +
+                                                                  artist.id +
+                                                                  "/" +
+                                                                  artist.profilepicture
+                                                              }
+                                                              text={artist.name}
+                                                          />
+                                                      );
+                                                  })
+                                                : console.log("loading")}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-span-3">
                                 <span className="text-3xl font-bold">
-                                    History
+                                    Socials
                                 </span>
                                 <div className="grid grid-cols-2 gap-4 py-8">
                                     {" "}
@@ -380,6 +430,6 @@ export default function Event({ params }: any) {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }

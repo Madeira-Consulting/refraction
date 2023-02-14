@@ -15,7 +15,6 @@ export const Tracklist = ({
     setSeek,
     setId,
     pb,
-    playbackStatus,
     player,
 }: any) => {
     const [requestedTracklist, setRequestedTracklist] = useState(false);
@@ -190,9 +189,10 @@ export const Tracklist = ({
                                         <BiPyramid
                                             size={20}
                                             className={
-                                                playbackStatus
-                                                    ? "animate-bounce"
-                                                    : ""
+                                                "animate-bounce"
+                                                // playbackStatus
+                                                //     ? "animate-bounce"
+                                                //     : ""
                                             }
                                         />
                                     )}

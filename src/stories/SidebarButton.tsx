@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { AiFillHome } from "react-icons/ai";
 import { BsQuestionLg } from "react-icons/bs";
@@ -6,15 +7,19 @@ interface SidebarButtonProps {
     text: string;
     isCollapsed?: boolean;
     icon?: JSX.Element;
+    link: string;
 }
 
 export const SidebarButton = ({
     text,
     isCollapsed,
     icon,
+    link,
 }: SidebarButtonProps) => (
     <>
-        <li
+        <Link
+            title={text}
+            href={link}
             className={
                 "text-slate-500 dark:text-white/50 hover:text-white font-medium flex flex-row gap-5 items-center bg-inherit duration-200 " +
                 (isCollapsed ? " justify-center" : "h-12 py-2 rounded-2xl")
@@ -24,6 +29,6 @@ export const SidebarButton = ({
                 {icon ? icon : <BsQuestionLg size={20} />}
             </div>
             {isCollapsed ? "" : text}
-        </li>
+        </Link>
     </>
 );

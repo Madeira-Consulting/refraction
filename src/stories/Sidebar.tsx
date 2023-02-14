@@ -72,31 +72,37 @@ export const Sidebar = ({
                     isCollapsed={isCollapsed}
                     text={"Home"}
                     icon={<AiFillHome size={20} />}
+                    link={"/"}
                 />
                 <SidebarButton
                     isCollapsed={isCollapsed}
                     text={"Library"}
                     icon={<IoLibrarySharp size={21} />}
+                    link={""}
                 />
                 <SidebarButton
                     isCollapsed={isCollapsed}
                     text={"Artists"}
                     icon={<BsPeopleFill size={20} />}
+                    link={""}
                 />
                 <SidebarButton
                     isCollapsed={isCollapsed}
                     text={"Events"}
                     icon={<BiWorld size={20} />}
+                    link={""}
                 />
                 <SidebarButton
                     isCollapsed={isCollapsed}
                     text={"Shows"}
                     icon={<FiRadio size={20} />}
+                    link={""}
                 />
                 <SidebarButton
                     isCollapsed={isCollapsed}
                     text={"Timewarp"}
                     icon={<BsFillCalendar3WeekFill size={20} />}
+                    link={""}
                 />
             </ul>
             <ul className="flex flex-col gap-6">
@@ -112,6 +118,7 @@ export const Sidebar = ({
                     isCollapsed={isCollapsed}
                     text={"Settings"}
                     icon={<FaHistory size={20} />}
+                    link={""}
                 />
                 <SidebarProfile user={user!} isCollapsed={isCollapsed!} />
             </ul>

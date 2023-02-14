@@ -6,12 +6,13 @@ import Image from "next/image";
 interface ImageButtonProps {
     image: string;
     isSquare?: boolean;
+    rounded?: string;
 }
 
-export const ImageButton = ({ image, isSquare }: ImageButtonProps) => (
+export const ImageButton = ({ image, isSquare, rounded }: ImageButtonProps) => (
     <>
         <div className={isSquare ? "aspect-square" : "aspect-video"}>
-            <div className="w-full h-full overflow-hidden rounded-2xl ">
+            <div className={"w-full h-full overflow-hidden rounded-" + rounded}>
                 <div className="opacity-100 flex flex-row items-center justify-center overflow-clip w-full h-full relative">
                     <Image src={image} alt={"logo"} fill />
                 </div>
