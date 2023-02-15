@@ -38,6 +38,7 @@ export const handlePlay = (player: { playVideo: () => void }) => {
     if (player) {
         console.log("Handle play");
         player.playVideo();
+        handleUnmute(player as any);
     } else console.log("Handle play failed");
 };
 
