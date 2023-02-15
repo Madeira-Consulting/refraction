@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { fTime } from "@/app/pages/api/helper";
@@ -15,15 +16,21 @@ import {
 import { Rnd } from "react-rnd";
 
 function convertRemToPixels(rem) {
-    return (
-        rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
-    );
+    if (typeof document !== "undefined") {
+        return (
+            rem *
+            parseFloat(getComputedStyle(document.documentElement).fontSize)
+        );
+    } else {
+        return rem * 16; // default font size in pixels
+    }
 }
 
 export const handleSeek = (player: any, seconds: number) => {
     if (player) {
         console.log("seeking to " + seconds + " | mm:ss " + fTime(seconds));
         player.seekTo(seconds, true);
+        handlePlay(player);
     }
 };
 
@@ -31,7 +38,7 @@ export const handlePlay = (player: { playVideo: () => void }) => {
     if (player) {
         console.log("Handle play");
         player.playVideo();
-    }
+    } else console.log("Handle play failed");
 };
 
 export const handlePause = (player: { pauseVideo: () => void }) => {
@@ -97,10 +104,21 @@ export const handleAttach = (
     }
 };
 
+const findCurrentTrack = (tracks: any, time: number) => {
+    let currentTrack = null;
+    for (let i = 0; i < tracks?.length; i++) {
+        if (tracks[i].timestamp > time) {
+            break;
+        }
+        currentTrack = tracks[i];
+    }
+    console.log("Current track: " + currentTrack?.title);
+    return currentTrack;
+};
+
 export const VideoPlayer = ({
     cover,
     seek,
-    setPlayer,
     playbackStatus,
     setPlaybackStatus,
     fullScreen,
@@ -113,17 +131,26 @@ export const VideoPlayer = ({
     const playerRef = React.useRef<any>(null);
     const ytRef = React.useRef<any>(null);
 
+    const [isDragging, setIsDragging] = useState(false);
+
     const [detachtedPosition, setDetachtedPosition] = useState({
         x: 320,
         y: 180,
     });
     const [position, setPosition] = useState({ x: 0, y: 0 });
-    const elementRef = document.getElementById("playerref");
+    const elementRef =
+        typeof document !== "undefined"
+            ? document.getElementById("playerref")
+            : null;
 
-    const isAttached = useStore.getState().player.isAttached;
-    const setIsAttached = useStore.getState().player.setIsAttached;
-    const player = useStore.getState().player.player;
-    const set = useStore.getState().set.set;
+    const { player, set, isAttached, updateIsAttached, updateCurrentTrack } =
+        useStore((state) => ({
+            player: state.player.player,
+            set: state.set.set,
+            isAttached: state.player.isAttached,
+            updateIsAttached: state.player.updateIsAttached,
+            updateCurrentTrack: state.updateCurrentTrack,
+        }));
 
     useEffect(() => {
         const observer = new ResizeObserver((entries) => {
@@ -174,10 +201,10 @@ export const VideoPlayer = ({
         }
     }, [fullScreen, setFullScreen]);
 
-    //init state for video after component mounted
-    useEffect(() => {
-        handlePlay(player);
-    }, [player]);
+    // //init state for video after component mounted
+    // useEffect(() => {
+    //     handlePlay(player);
+    // }, [player]);
 
     useEffect(() => {
         handleSeek(player, seek);
@@ -185,24 +212,13 @@ export const VideoPlayer = ({
     }, [player, seek]);
 
     useEffect(() => {
-        if (player) {
-            handleAttach(isAttached, setIsAttached, setPosition);
-        }
-    }, [setIsAttached, isAttached]);
-
-    useEffect(() => {
         (window as any).onYouTubeIframeAPIReady = () => {
             const player = new (window as any).YT.Player(ytRef.current, {
                 events: {
                     onReady: () => {
                         console.log("Player is ready");
-                        useStore.setState({
-                            player: {
-                                player: player,
-                                isAttached: isAttached,
-                                setIsAttached: setIsAttached,
-                            },
-                        });
+                        const setPlayer = useStore.getState().player.setPlayer;
+                        setPlayer(player);
                         // handleUnmute(player);
                         handleDuration(player);
                     },
@@ -216,7 +232,25 @@ export const VideoPlayer = ({
                 player.destroy();
             };
         };
-    }, [handleStateChange, setPlayer]);
+    }, [handleStateChange]);
+
+    // //update current track every second
+    useEffect(() => {
+        const interval = setInterval(() => {
+            console.log(set);
+            if (player) {
+                const time = player.getCurrentTime();
+                const currentTrack = findCurrentTrack(
+                    set?.expand?.tracks,
+                    time
+                );
+
+                console.log(currentTrack);
+                updateCurrentTrack(currentTrack);
+            }
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [player, handleSeek]);
 
     return (
         <>
@@ -233,9 +267,13 @@ export const VideoPlayer = ({
                         ? "opacity-0"
                         : "opacity-100")
                 }
-                // onClick={() =>
-                //     playbackStatus ? handlePause(player) : handlePlay(player)
-                // }
+                onClick={() => {
+                    if (!isDragging) {
+                        playbackStatus
+                            ? handlePause(player)
+                            : handlePlay(player);
+                    }
+                }}
                 style={
                     !isAttached
                         ? {
@@ -255,7 +293,13 @@ export const VideoPlayer = ({
             >
                 <Rnd
                     disableDragging={isAttached}
-                    position={position}
+                    position={isAttached ? { x: 0, y: 0 } : position}
+                    onDragStart={(e, d) => {
+                        setIsDragging(false);
+                    }}
+                    onDragStop={(e, d) => {
+                        setIsDragging(true);
+                    }}
                     enableResizing={
                         isAttached
                             ? false
@@ -344,7 +388,7 @@ export const VideoPlayer = ({
                                 "https://www.youtube.com/embed/" +
                                 // set?.video +
                                 "4gUpPHf3MpQ" +
-                                "?controls=0&autoplay=1&mute=1&enablejsapi=1"
+                                "?controls=0&mute=0&enablejsapi=1"
                             }
                             title="YouTube video player"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

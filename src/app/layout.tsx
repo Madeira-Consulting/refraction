@@ -4,7 +4,7 @@ import { Mediabar } from "@/stories/Mediabar";
 import { Sidebar } from "@/stories/Sidebar";
 import { handleVideoChange, VideoPlayer } from "@/stories/VideoPlayer";
 import { useEffect, useRef, useState } from "react";
-import { useStore } from "zustand/react";
+import { useStore } from "@/store";
 import "./globals.css";
 
 export default function RootLayout({
@@ -27,7 +27,6 @@ export default function RootLayout({
 
     const [fullScreen, setFullScreen] = useState(false);
 
-    const [isAttached, setIsAttached] = useState(false);
     const [width, setWidth] = useState<number>(1200);
 
     return (
@@ -76,14 +75,10 @@ export default function RootLayout({
                             <VideoPlayer
                                 cover={"/poster.jpg"}
                                 seek={seek}
-                                player={player}
-                                setPlayer={setPlayer}
                                 playbackStatus={playbackStatus}
                                 setPlaybackStatus={setPlaybackStatus}
                                 fullScreen={fullScreen}
                                 setFullScreen={setFullScreen}
-                                isAttached={isAttached}
-                                setIsAttached={setIsAttached}
                                 width={width}
                                 setWidth={setWidth}
                             />
@@ -94,7 +89,6 @@ export default function RootLayout({
                                 onClick={() => {
                                     // setIsAttached(!isAttached);
                                     // handleVideoChange(player, "hdwUbiRP2_Q");
-                                    player.unMute();
                                 }}
                             >
                                 <Header />
@@ -103,8 +97,6 @@ export default function RootLayout({
                             <div className={"bottom-0 fixed z-50 w-full"}>
                                 <Mediabar
                                     seek={seek}
-                                    player={player}
-                                    setPlayer={setPlayer}
                                     playbackStatus={playbackStatus}
                                     setPlaybackStatus={setPlaybackStatus}
                                     fullScreen={fullScreen}

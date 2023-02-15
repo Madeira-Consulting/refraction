@@ -28,7 +28,7 @@ export const Mediabar = ({
     const [currentTime, setCurrentTime] = React.useState(0);
     const [pictureToggle, setPictureToggle] = React.useState(true);
 
-    const player = useStore.getState().player.player;
+    const { player } = useStore((state) => state.player);
 
     //update current time every second
     React.useEffect(() => {

@@ -1,3 +1,6 @@
+"use client";
+
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { CgBell } from "react-icons/cg";
@@ -22,13 +25,15 @@ const Header = () => {
         }
     };
 
-    useEffect(() => {
-        setCanGoBack(history.length > 1);
-        setCanGoForward(history.length > 1);
-        console.log("History:");
-        console.log(history);
-        console.log(history.state);
-    }, [history]);
+    // useEffect(() => {
+    //     if (typeof window !== "undefined") {
+    //         setCanGoBack(history.length > 1);
+    //         setCanGoForward(history.length > 1);
+    //         console.log("History:");
+    //         console.log(history);
+    //         console.log(history.state);
+    //     }
+    // }, [history]);
 
     return (
         <>

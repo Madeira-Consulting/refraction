@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import Image from "next/image";
 import { Inter } from "@next/font/google";
@@ -47,12 +48,19 @@ pb.autoCancellation(false);
 
 export default function Set({ params }: any) {
     const setId = params.id;
-    const set = useStore.getState().set.set;
-    const currentTrack = useStore.getState().currentTrack;
-    const player = useStore.getState().player.player;
+    const { set, currentTrack, player }: any = useStore((state) => state);
+
+    const isAttached = useStore((state) => state.player.isAttached);
+    const updateIsAttached = useStore((state) => state.player.updateIsAttached);
+
+    const updateCurrentTrack = useStore((state) => state.updateCurrentTrack);
 
     const [seek, setSeek] = useState(false);
     const [fullScreen, setFullScreen] = useState(false);
+
+    useEffect(() => {
+        updateIsAttached(true);
+    }, []);
 
     useEffect(() => {
         (async () => {
@@ -64,21 +72,6 @@ export default function Set({ params }: any) {
             });
         })();
     }, []);
-
-    // //update current track every second
-    useEffect(() => {
-        const interval = setInterval(() => {
-            set?.expand.tracks && player?.getCurrentTime
-                ? useStore.setState({
-                      currentTrack: findCurrentTrack(
-                          set?.expand.tracks,
-                          player?.getCurrentTime()
-                      ),
-                  })
-                : console.log("no tracks or player");
-        }, 1000);
-        return () => clearInterval(interval);
-    }, [player, handleSeek]);
 
     // const searchTrack = async (artist: any, title: any) => {
     //     const query = encodeURIComponent(`${artist} ${title}`);
@@ -140,7 +133,7 @@ export default function Set({ params }: any) {
                                                     set?.artist[0] +
                                                     "/" +
                                                     set?.expand.artist[0]
-                                                        .profilepicture
+                                                        ?.profilepicture
                                                 }
                                                 width={50}
                                                 height={50}
@@ -158,11 +151,11 @@ export default function Set({ params }: any) {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="font-bold">
-                                        {set?.expand.artist[0].name}
+                                        {set?.expand?.artist[0]?.name}
                                     </span>
                                     <span>
                                         {fNumber(
-                                            set?.expand.artist[0].followers
+                                            set?.expand?.artist[0]?.followers
                                         ) + " Fans"}
                                     </span>
                                 </div>

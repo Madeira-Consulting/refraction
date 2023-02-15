@@ -4,9 +4,7 @@ import PocketBase from "pocketbase";
 
 import _ from "lodash";
 import { AiFillEye } from "react-icons/ai";
-import {
-    BsFillCalendar3WeekFill,
-} from "react-icons/bs";
+import { BsFillCalendar3WeekFill } from "react-icons/bs";
 import { RiHeart3Fill } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { fDate, fNumber } from "@/app/pages/api/helper";
@@ -229,22 +227,22 @@ export default function Event({ params }: any) {
                             </div>
                             <div className="col-span-9">
                                 <div className="flex flex-row items-center justify-between">
-           <span className="text-3xl font-bold">
-                                    Most Popular
-                                </span>
-                                     <div className="flex flex-row gap-2 justify-between rounded-full my-4 items-center">
-               <div className=" border-b-4 border-white  font-bold text-white/  flex items-center py-2 px-5 w-36 flex-row justify-center">
-                    Most Popular
-                </div>
-                <div className=" border-b-4 border-white/50  font-bold text-white/50  flex items-center py-2 px-5 w-36 flex-row justify-center">
-                    Stages
-                </div>
-                <div className=" border-b-4 border-white/50  font-bold text-white/50  flex items-center py-2 px-5 w-36 flex-row justify-center">
-                    History
-                </div>
-            </div>
+                                    <span className="text-3xl font-bold">
+                                        Most Popular
+                                    </span>
+                                    <div className="flex flex-row gap-2 justify-between rounded-full my-4 items-center">
+                                        <div className=" border-b-4 border-white  font-bold text-white/  flex items-center py-2 px-5 w-36 flex-row justify-center">
+                                            Most Popular
+                                        </div>
+                                        <div className=" border-b-4 border-white/50  font-bold text-white/50  flex items-center py-2 px-5 w-36 flex-row justify-center">
+                                            Stages
+                                        </div>
+                                        <div className=" border-b-4 border-white/50  font-bold text-white/50  flex items-center py-2 px-5 w-36 flex-row justify-center">
+                                            History
+                                        </div>
+                                    </div>
                                 </div>
-                     
+
                                 <div className="flex flex-col w-full overflow-x-scroll gap-5 duration-500 py-8 no-scrollbar">
                                     {sets.length > 0
                                         ? sets.map((set: any) => {
@@ -267,19 +265,16 @@ export default function Event({ params }: any) {
                                                                       set.id +
                                                                       "/" +
                                                                       set.thumbnail
-
                                                                   }
                                                               />
                                                           </div>
                                                           <div className="text-lg font-bold flex flex-col whitespace-nowrap">
                                                               <Link
                                                                   href={
-                                                                        "/set/" +
-                                                                        set.id
-                                                                    }
-                                                                  
+                                                                      "/set/" +
+                                                                      set.id
+                                                                  }
                                                               >
-                                                                  
                                                                   {
                                                                       set
                                                                           ?.expand
@@ -318,10 +313,11 @@ export default function Event({ params }: any) {
                                                           0
                                                               ? set?.expand
                                                                     ?.venue[0]
-                                                                    .name
-                                                              : set?.expand
-                                                                    ?.event?
-                                                                    .name}
+                                                                    ?.name
+                                                              : //   : set?.expand
+                                                                //         ?.event
+                                                                //         .name}
+                                                                "..."}
                                                       </span>
                                                       <div className="flex-grow border border-white/10 hidden xl:block"></div>
                                                       <div
