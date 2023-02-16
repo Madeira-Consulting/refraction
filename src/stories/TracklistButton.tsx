@@ -12,6 +12,7 @@ export const TracklistButton = ({ image }: TracklistButtonProps) => (
         <div className="h-60 aspect-square lg:aspect-video  bg-dark2 rounded-2xl">
             <div className="opacity-100 flex flex-row items-center justify-center h-full z-20 bg-dark/2">
                 <Image
+                    unoptimized={true}
                     src={image}
                     width={250}
                     height={250}

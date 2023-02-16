@@ -18,8 +18,6 @@ import { useStore } from "@/store";
 
 export const Mediabar = ({
     playbackStatus,
-    currentTrack,
-    set,
     fullScreen,
     setFullScreen,
 }: any) => {
@@ -28,8 +26,14 @@ export const Mediabar = ({
     const [currentTime, setCurrentTime] = React.useState(0);
     const [pictureToggle, setPictureToggle] = React.useState(true);
 
-    const { player } = useStore((state) => state.player);
 
+    const { player, set, currentTrack } =
+        useStore((state) => ({
+            player: state.player.player,
+            set: state.set.set,
+            currentTrack: state.currentTrack,
+        
+        }));
     //update current time every second
     React.useEffect(() => {
         const interval = setInterval(() => {
@@ -86,6 +90,7 @@ export const Mediabar = ({
                             >
                                 {set?.artist ? (
                                     <Image
+                                        unoptimized={true}
                                         src={
                                             "http://localhost:8090/api/files/wt02nz9hdjxzhxx/" +
                                             set?.artist[0] +

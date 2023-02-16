@@ -48,12 +48,16 @@ pb.autoCancellation(false);
 
 export default function Set({ params }: any) {
     const setId = params.id;
-    const { set, currentTrack, player }: any = useStore((state) => state);
 
-    const isAttached = useStore((state) => state.player.isAttached);
-    const updateIsAttached = useStore((state) => state.player.updateIsAttached);
 
-    const updateCurrentTrack = useStore((state) => state.updateCurrentTrack);
+    const { player, set, isAttached, updateIsAttached, currentTrack } =
+        useStore((state) => ({
+            player: state.player.player,
+            set: state.set,
+            isAttached: state.player.isAttached,
+            updateIsAttached: state.player.updateIsAttached,
+            currentTrack: state.currentTrack,
+        }));
 
     const [seek, setSeek] = useState(false);
     const [fullScreen, setFullScreen] = useState(false);
@@ -123,16 +127,17 @@ export default function Set({ params }: any) {
                 <div className="col-span-7">
                     <div className="grid grid-cols-6 gap-x-8 gap-y-4">
                         <div className="col-span-4">
-                            <div className="flex flex-row items-center gap-3">
+                            <div className="flex flex-row items-center gap-5">
                                 <div className="flex flex-row items-end">
-                                    <div className="rounded-full aspect-square overflow-clip">
-                                        {set?.artist ? (
+                                    <div className="rounded-full aspect-square overflow-clip w-16 h-16  ">
+                                        {set?.set?.artist ? (
                                             <Image
+                                            unoptimized={true}
                                                 src={
                                                     "http://localhost:8090/api/files/wt02nz9hdjxzhxx/" +
-                                                    set?.artist[0] +
+                                                    set?.set?.artist[0] +
                                                     "/" +
-                                                    set?.expand.artist[0]
+                                                    set?.set?.expand.artist[0]
                                                         ?.profilepicture
                                                 }
                                                 width={50}
@@ -151,11 +156,12 @@ export default function Set({ params }: any) {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="font-bold">
-                                        {set?.expand?.artist[0]?.name}
+                                        {set?.set?.expand?.artist[0]?.name}
+                                        {console.log(set?.set)}
                                     </span>
                                     <span>
                                         {fNumber(
-                                            set?.expand?.artist[0]?.followers
+                                            set?.set?.expand?.artist[0]?.followers
                                         ) + " Fans"}
                                     </span>
                                 </div>
@@ -186,7 +192,7 @@ export default function Set({ params }: any) {
                                 <span className="text-white/50 text-lg">
                                     <div
                                         dangerouslySetInnerHTML={{
-                                            __html: set?.description,
+                                            __html: set?.set?.description,
                                         }}
                                     />
                                 </span>
@@ -200,7 +206,7 @@ export default function Set({ params }: any) {
                                             <AiFillEye size={20} />
                                         </div>
                                         <div className="col-span-7">
-                                            {fNumber(set?.views) + " views"}
+                                            {fNumber(set?.set?.views) + " views"}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-8 items-center gap-10">
@@ -208,7 +214,7 @@ export default function Set({ params }: any) {
                                             <RiHeart3Fill size={20} />
                                         </div>
                                         <div className="col-span-7">
-                                            {fNumber(set?.likes) + " likes"}
+                                            {fNumber(set?.set?.likes) + " likes"}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-8 items-center gap-10">
@@ -216,7 +222,7 @@ export default function Set({ params }: any) {
                                             <BsFillCalendarDateFill size={18} />
                                         </div>
                                         <div className="col-span-7">
-                                            {fDate(set?.date)}
+                                            {fDate(set?.set?.date)}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-8 items-center gap-10">
@@ -273,7 +279,7 @@ export default function Set({ params }: any) {
                                     src={
                                         "https://www.tomorrowland.com/src/Frontend/Themes/tomorrowland/Core/Layout/images/timeline/2019-1.jpg"
                                     }
-                                    width={300}
+                                    width={400}
                                     height={400}
                                     alt="Picture of the video"
                                 />

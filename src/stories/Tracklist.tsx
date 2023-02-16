@@ -155,10 +155,10 @@ export const Tracklist = ({ setSeek, setId, pb }: any) => {
                     >
                         {" "}
                         <span className="text-2xl font-semibold">
-                            Tomorrowland 2019
+                            {set?.expand?.venue.name}
                         </span>
                         <span className="text-md font-semibold">
-                            3 Are Legend | {fDate(set?.date)}
+                            {(set?.expand?.artist[0].name) } | {fDate(set?.date)}
                         </span>
                     </div>
                 </div>

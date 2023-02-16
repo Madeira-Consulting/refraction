@@ -25,15 +25,15 @@ const Header = () => {
         }
     };
 
-    // useEffect(() => {
-    //     if (typeof window !== "undefined") {
-    //         setCanGoBack(history.length > 1);
-    //         setCanGoForward(history.length > 1);
-    //         console.log("History:");
-    //         console.log(history);
-    //         console.log(history.state);
-    //     }
-    // }, [history]);
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            setCanGoBack(history.length > 1);
+            setCanGoForward(history.length > 1);
+            console.log("History:");
+            console.log(history);
+            console.log(history.state);
+        }
+    }, [history]);
 
     return (
         <>

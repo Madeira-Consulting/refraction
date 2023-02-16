@@ -129,7 +129,7 @@ export default function Event({ params }: any) {
                         <div className="grid grid-cols-12 gap-x-16 gap-y-8 pb-36 pt-32 pl-16 w-max">
                             <div className="col-span-12">
                                 <span className="text-5xl font-bold">
-                                    {event.name} 🇧🇪
+                                    {event.name + " 🇧🇪"} 
                                 </span>
                                 <div className="flex w-full justify-between gap-8 duration-500 py-8 no-scrollbar h-fit">
                                     {/* {events.length > 0
@@ -153,6 +153,7 @@ export default function Event({ params }: any) {
                                     <div className="flex flex-grow items-center justify-center bg-dark2 rounded-2xl">
                                         <div className="opacity-100 flex flex-row items-center justify-center h-max z-20 bg-dark/2">
                                             <Image
+                                                unoptimized={true}
                                                 src={
                                                     "http://localhost:8090/api/files/" +
                                                     event.collectionId +
@@ -317,9 +318,9 @@ export default function Event({ params }: any) {
                                                               : //   : set?.expand
                                                                 //         ?.event
                                                                 //         .name}
-                                                                "..."}
+                                                                "Mainstage"}
                                                       </span>
-                                                      <div className="flex-grow border border-white/10 hidden xl:block"></div>
+                                                      {/* <div className="flex-grow border border-white/10 hidden xl:block"></div> */}
                                                       <div
                                                           className="text-lg flex whitespace-nowrap hover:opacity-50 duration-100"
                                                           onClick={() =>
@@ -334,13 +335,13 @@ export default function Event({ params }: any) {
                                                                     ?.tracks
                                                                     .length +
                                                                 " Tracks"
-                                                              : "..."}
+                                                              : "42 Tracks"}
                                                       </div>
                                                       <div className="flex flex-row items-center gap-3">
                                                           <BsFillCalendar3WeekFill />
                                                           {set.date
                                                               ? fDate(set.date)
-                                                              : "..."}
+                                                              : "31.12.3003"}
                                                       </div>
                                                       <span className="text-lg whitespace-nowrap">
                                                           1h 30m

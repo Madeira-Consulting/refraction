@@ -14,6 +14,7 @@ export const ArtistButton = ({ text, image }: ArtistButtonProps) => (
             <div className="rounded-4xl overflow-clip shadow-xl duration-200">
                 <div className="aspect-square overflow-clip">
                     <Image
+                        unoptimized={true}
                         src={image ? image : ""}
                         width={100}
                         height={100}
