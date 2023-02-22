@@ -133,7 +133,7 @@ export default function Artist({ params }: any) {
                   {artist.name} 🇧🇪
                 </div>
 
-                <div className="text-2xl">
+                <div className="text-2xl w-3/4">
                   Tomorrowland is an annual electronic dance music festival held
                   in Belgium, featuring top DJs and musical acts, elaborate
                   stages, and interactive experiences. Lorem ipsum dolor sit

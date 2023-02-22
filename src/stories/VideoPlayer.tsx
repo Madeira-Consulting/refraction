@@ -265,7 +265,7 @@ export const VideoPlayer = ({
                 className={
                     "ml-36 mt-24 duration-500 " +
                     (!isAttached && playbackStatus != 1
-                        ? "opacity-0"
+                        ? "opacity-0 hidden"
                         : "opacity-100")
                 }
                 onClick={() => {
