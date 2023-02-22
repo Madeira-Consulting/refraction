@@ -85,7 +85,7 @@ export default function RootLayout({
                         </div>
                         <div className="w-screen">
                             <div
-                                className={"fixed z-50 w-full"}
+                                className={"fixed z-50 w-full hidden sm:block"}
                                 onClick={() => {
                                     // setIsAttached(!isAttached);
                                     // handleVideoChange(player, "hdwUbiRP2_Q");

@@ -102,7 +102,7 @@ export default function Event({ params }: any) {
         <div className="grid grid-cols-12 gap-x-16 gap-y-8">
           <div className="col-span-12">
             <span className="text-5xl font-bold">{event.name + " 🇧🇪"}</span>
-            <div className="flex w-full justify-between gap-8 duration-500 py-8 no-scrollbar h-fit">
+            <div className="flex w-full justify-start gap-8 duration-500 py-8 no-scrollbar h-fit">
               {/* {events.length > 0
                                         ? events.map((event: any) => {
                                               return (
@@ -121,8 +121,8 @@ export default function Event({ params }: any) {
                                           })
                                         : console.log("loading")} */}
 
-              <div className="flex flex-grow items-center justify-center bg-dark2 rounded-2xl">
-                <div className="opacity-100 flex flex-row items-center justify-center h-max z-20 bg-dark/2">
+              <div className="flex items-center justify-start bg-dark2 rounded-2xl">
+                <div className="opacity-100 w-64 flex flex-row items-center justify-center h-max z-20 bg-dark/2">
                   <Image
                     unoptimized={true}
                     src={
@@ -176,7 +176,7 @@ export default function Event({ params }: any) {
 
                 {/* load svg image next.js */}
               </div>
-              <div className="h-60 aspect-square lg:aspect-video  bg-dark2 rounded-2xl">
+              <div className="h-60 flex-grow bg-dark2 rounded-2xl">
                 <div className="opacity-100 flex items-center justify-center h-full z-20 bg-dark/2 text-xl leading-6 px-12">
                   <span className="font-bold">Socials</span>
                 </div>
