@@ -38,7 +38,7 @@ export default function RootLayout({
             <head />
             <body>
                 <div
-                    className="flex flex-row bg-cover duration-500 bg-gradient-to-r from-dark1 to-dark1/95 w-full"
+                    className="flex flex-row bg-cover duration-500 bg-gradient-to-r from-dark1 to-dark1/95 w-full dark"
                     style={
                         {
                             // backgroundImage:

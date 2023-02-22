@@ -1,6 +1,6 @@
 
 
-export const BackgroundWrapper = ({ children }) => {
+export const BackgroundWrapper = ({ children }: any) => {
   return (
 
     <div className="flex flex-row w-max duration-500">

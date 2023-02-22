@@ -1,23 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import Image from "next/image";
-import { Inter } from "@next/font/google";
 import PocketBase from "pocketbase";
 
 import _ from "lodash";
-import { Sidebar } from "@/stories/Sidebar";
-import Header from "@/stories/Header";
 import { AiFillEye } from "react-icons/ai";
 import { BsPlusLg, BsFillCalendarDateFill } from "react-icons/bs";
 import { FaLocationArrow } from "react-icons/fa";
 import { MdScreenShare } from "react-icons/md";
 import { RiHeart3Fill } from "react-icons/ri";
-import { useEffect, useRef, useState } from "react";
-import { handleAttach, handleSeek, VideoPlayer } from "@/stories/VideoPlayer";
-import { Mediabar } from "@/stories/Mediabar";
+import { useEffect, useState } from "react";
 import { Tracklist } from "@/stories/Tracklist";
 import { fDate, fNumber } from "@/app/pages/api/helper";
-import Plyr from "plyr";
 import { VideoReference } from "@/stories/VideoReference";
 import { useStore } from "@/store";
 
