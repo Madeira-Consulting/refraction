@@ -275,8 +275,8 @@ export default function Event({ params }: any) {
                   Artists
                 </div>
 
-                <div className="flex flex-row overflow-clip gap-5 duration-500 py-5">
-                  {artists.length > 0
+                <div className="flex flex-row flex-1 overflow-x-scroll gap-5 duration-500 py-5 no-scrollbar">
+                     {artists.length > 0
                     ? artists.map((artist: any) => {
                         return (
                           <ArtistButton
