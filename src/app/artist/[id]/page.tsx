@@ -15,11 +15,11 @@ import Link from "next/link";
 import { BackgroundWrapper } from "@/components/BackgroundWrapper";
 
 const getArtist = async (id: string) => {
-    const event = await pb.collection("artists").getOne(id, {
+    const artist = await pb.collection("artists").getFirstListItem(`urlParameter="${id}"`, {
         expand: "artists",
     });
-    console.log(event);
-    return event;
+    console.log(artist);
+    return artist;
 };
 const pb = new PocketBase("http://127.0.0.1:8090");
 pb.autoCancellation(false);

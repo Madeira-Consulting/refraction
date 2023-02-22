@@ -15,11 +15,11 @@ import Link from "next/link";
 import { BackgroundWrapper } from "@/components/BackgroundWrapper";
 
 const getEvent = async (id: string) => {
-  const event = await pb.collection("events").getOne(id, {
-    expand: "events",
-  });
-  console.log(event);
-  return event;
+    const event = await pb.collection("events").getFirstListItem(`urlParameter="${id}"`, {
+        expand: "events",
+      });
+      console.log(event);
+      return event;
 };
 
 const getArtists = async () => {
@@ -281,7 +281,7 @@ export default function Event({ params }: any) {
                         return (
                           <ArtistButton
                             key={artist.id}
-                            link={"./artist/" + artist.id}
+                            link={"/artist/" + artist.urlParameter}
                             image={
                               "http://localhost:8090/api/files/" +
                               artist.collectionId +

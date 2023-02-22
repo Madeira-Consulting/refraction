@@ -156,7 +156,7 @@ export default function Event({ params }: any) {
                                                   "/" +
                                                   event.logo
                                               }
-                                              link={"./event/" + event.id}
+                                              link={"./event/" + event.urlParameter}
                                           />
                                       );
                                   })
