@@ -21,7 +21,7 @@ export const ArtistButton = ({ text, image, link }: ArtistButtonProps) => {
         <>
             <Link
                 href={link ? currentLink : "/"}
-                className="flex flex-col items-center gap-2 font-semibold text-sm text-center select-none">
+                className="flex flex-col items-center gap-2 font-semibold text-sm text-center select-none w-min">
             <div className="rounded-4xl overflow-clip shadow-xl duration-200 w-24 h-24">
                 <div className="aspect-square overflow-clip">
                     <Image
