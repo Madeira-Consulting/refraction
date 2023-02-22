@@ -185,7 +185,7 @@ export const VideoPlayer = ({
 
     const handleFullScreen = () => {
         if (playerRef.current.requestFullscreen) {
-            playerRef.current.requestFullscreen();
+            // playerRef.current.requestFullscreen();
         } else if (playerRef.current.mozRequestFullScreen) {
             playerRef.current.mozRequestFullScreen();
         } else if (playerRef.current.webkitRequestFullscreen) {

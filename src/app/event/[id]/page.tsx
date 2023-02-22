@@ -99,7 +99,7 @@ export default function Event({ params }: any) {
         </div>
       </div>
       <BackgroundWrapper>
-        <div className="grid grid-cols-12 gap-x-16 gap-y-8 pb-36 pt-32 pl-16 w-full pr-32">
+        <div className="grid grid-cols-12 gap-x-16 gap-y-8">
           <div className="col-span-12">
             <span className="text-5xl font-bold">{event.name + " 🇧🇪"}</span>
             <div className="flex w-full justify-between gap-8 duration-500 py-8 no-scrollbar h-fit">

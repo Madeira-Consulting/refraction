@@ -109,7 +109,7 @@ export default function Artist({ params }: any) {
         </div>
       </div>
       <BackgroundWrapper>
-        <div className="grid grid-cols-12 gap-x-16 gap-y-8 pb-36 pt-32 pl-16 w-full pr-32">
+        <div className="grid grid-cols-12 gap-x-16 gap-y-8">
           <div className="col-span-12">
             <div className="flex flex-row gap-12">
               {" "}
