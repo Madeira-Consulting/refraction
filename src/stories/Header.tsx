@@ -7,6 +7,7 @@ import { CgBell } from "react-icons/cg";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { useRouter, withRouter } from "next/navigation";
 import { useStore } from "@/store";
+import { BsSpotify } from "react-icons/bs";
 
 const Header = () => {
     const router = useRouter();
@@ -24,6 +25,10 @@ const Header = () => {
             router.forward();
         }
     };
+
+    const handleSpotifyLogin = () => {
+        router.push("/api/test");
+    }
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -81,8 +86,9 @@ const Header = () => {
                             </div>
                         </div>
                         <div className="flex grow-0 gap-4">
-                            <div className="w-12  text-primary dark:text-white/50 rounded-full flex justify-center items-center">
-                                <CgBell size={24} />
+                            <div className="w-12  text-primary dark:text-white/50 rounded-full flex justify-center items-center gap-4">
+                                <BsSpotify size={30} onClick={handleSpotifyLogin} />
+                                <CgBell size={30} />
                             </div>
                         </div>
                     </div>

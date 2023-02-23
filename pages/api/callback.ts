@@ -30,9 +30,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 body: data.toString()
             });
             const newData = await response.json();
+            var access_token = newData.access_token;
+            var refresh_token = newData.refresh_token;
+
+            
             console.log(newData);
         } catch (error) {
             console.log(error);
         }
+
+        res.redirect('/#' + querystring.stringify({access_token: access_token, refresh_token: refresh_token}));
     }
 }
