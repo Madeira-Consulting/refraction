@@ -85,7 +85,7 @@ export const handleVideoChange = (
     videoId: any
 ) => {
     if (player) {
-        player.loadVideoById(videoId, 0, "highres");
+        player.loadVideoById(videoId);
     }
 };
 
@@ -317,7 +317,9 @@ export const VideoPlayer = ({
                     }
                     size={{
                         width: isAttached ? width : detachtedPosition.x,
-                        height: isAttached ? width : detachtedPosition.x / 1.78,
+                        height: isAttached
+                            ? width / 1.78
+                            : detachtedPosition.x / 1.78,
                     }}
                     onResize={(e, direction, ref, delta, position) => {
                         console.log(e);
@@ -382,7 +384,7 @@ export const VideoPlayer = ({
                         </div>
                         <iframe
                             ref={ytRef}
-                            style={{ pointerEvents: "none" }}
+                            // style={{ pointerEvents: "none" }}
                             width={"100%"}
                             height={"100%"}
                             src={

@@ -14,6 +14,7 @@ import { Tracklist } from "@/stories/Tracklist";
 import { fDate, fNumber } from "@/app/pages/api/helper";
 import { VideoReference } from "@/stories/VideoReference";
 import { useStore } from "@/store";
+import { handleVideoChange } from "@/stories/VideoPlayer";
 
 const getSet = async (id: string) => {
     const record = await pb.collection("sets").getOne(id, {
@@ -43,7 +44,6 @@ pb.autoCancellation(false);
 export default function Set({ params }: any) {
     const setId = params.id;
 
-
     const { player, set, isAttached, updateIsAttached, currentTrack } =
         useStore((state) => ({
             player: state.player.player,
@@ -63,6 +63,7 @@ export default function Set({ params }: any) {
     useEffect(() => {
         (async () => {
             const set = await getSet(setId);
+            handleVideoChange(player, set.video);
             useStore.setState({
                 set: {
                     set: set,
@@ -126,7 +127,7 @@ export default function Set({ params }: any) {
                                     <div className="rounded-full aspect-square overflow-clip w-16 h-16  ">
                                         {set?.set?.artist ? (
                                             <Image
-                                            unoptimized={true}
+                                                unoptimized={true}
                                                 src={
                                                     "http://localhost:8090/api/files/wt02nz9hdjxzhxx/" +
                                                     set?.set?.artist[0] +
@@ -155,7 +156,8 @@ export default function Set({ params }: any) {
                                     </span>
                                     <span>
                                         {fNumber(
-                                            set?.set?.expand?.artist[0]?.followers
+                                            set?.set?.expand?.artist[0]
+                                                ?.followers
                                         ) + " Fans"}
                                     </span>
                                 </div>
@@ -200,7 +202,8 @@ export default function Set({ params }: any) {
                                             <AiFillEye size={20} />
                                         </div>
                                         <div className="col-span-7">
-                                            {fNumber(set?.set?.views) + " views"}
+                                            {fNumber(set?.set?.views) +
+                                                " views"}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-8 items-center gap-10">
@@ -208,7 +211,8 @@ export default function Set({ params }: any) {
                                             <RiHeart3Fill size={20} />
                                         </div>
                                         <div className="col-span-7">
-                                            {fNumber(set?.set?.likes) + " likes"}
+                                            {fNumber(set?.set?.likes) +
+                                                " likes"}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-8 items-center gap-10">
