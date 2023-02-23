@@ -185,7 +185,7 @@ export const VideoPlayer = ({
 
     const handleFullScreen = () => {
         if (playerRef.current.requestFullscreen) {
-            playerRef.current.requestFullscreen();
+            // playerRef.current.requestFullscreen();
         } else if (playerRef.current.mozRequestFullScreen) {
             playerRef.current.mozRequestFullScreen();
         } else if (playerRef.current.webkitRequestFullscreen) {
@@ -265,7 +265,7 @@ export const VideoPlayer = ({
                 className={
                     "ml-36 mt-24 duration-500 " +
                     (!isAttached && playbackStatus != 1
-                        ? "opacity-0"
+                        ? "opacity-0 hidden"
                         : "opacity-100")
                 }
                 onClick={() => {

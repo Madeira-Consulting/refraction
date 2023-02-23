@@ -38,7 +38,7 @@ export default function RootLayout({
             <head />
             <body>
                 <div
-                    className="flex flex-row bg-cover duration-500 bg-gradient-to-r from-dark1 to-dark1/95 w-full"
+                    className="flex flex-row bg-cover duration-500 bg-gradient-to-r from-dark1 to-dark1/95 w-full dark"
                     style={
                         {
                             // backgroundImage:
@@ -85,7 +85,7 @@ export default function RootLayout({
                         </div>
                         <div className="w-screen">
                             <div
-                                className={"fixed z-50 w-full"}
+                                className={"fixed z-50 w-full hidden sm:block"}
                                 onClick={() => {
                                     // setIsAttached(!isAttached);
                                     // handleVideoChange(player, "hdwUbiRP2_Q");

@@ -53,7 +53,7 @@ const Header = () => {
                             : "bg-gradient-to-b from-dark1 via-dark1/50 to-transparent")
                     }
                 >
-                    <div className="flex flex-row w-full justify-between font-normal gap-4 h-12 pr-5">
+                    <div className="flex flex-row w-full justify-between font-normal gap-4 h-12 pr-5 pl-2">
                         <div className="flex flex-row h-10 w-full gap-12">
                             <div className="flex flex-row gap-4 items-center">
                                 <IoIosArrowBack
