@@ -19,6 +19,8 @@ module.exports = {
                 primary: "#46c6f1",
                 dark1: "#1f1d2c",
                 dark2: "#262837",
+                galaxy: "#110821",
+                galaxy2: "#B3A2FC",
             },
             backgroundImage: {
                 "hero-lg":
