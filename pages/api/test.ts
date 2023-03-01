@@ -8,7 +8,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     var scope = 'user-read-private user-read-email';
     var state = generateRandomString(16);
 
-
+    // var url = 'https://accounts.spotify.com/authorize?' +
+    // querystring.stringify({
+    //     response_type: 'code',
+    //     client_id: process.env.client_id,
+    //     scope: scope,
+    //     redirect_uri: redirect_uri,
+    //     state: state
+    // });
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
             response_type: 'code',
@@ -17,6 +24,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             redirect_uri: redirect_uri,
             state: state
         }));
+
+    //res.status(200).send(url);
 }
 
 var generateRandomString = function (length: any) {

@@ -26,9 +26,6 @@ const Header = () => {
         }
     };
 
-    const handleSpotifyLogin = () => {
-        router.push("/api/test");
-    }
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -87,7 +84,7 @@ const Header = () => {
                         </div>
                         <div className="flex grow-0 gap-4">
                             <div className="w-12  text-primary dark:text-white/50 rounded-full flex justify-center items-center gap-4">
-                                <BsSpotify size={30} onClick={handleSpotifyLogin} />
+                                <a href="/api/test"><BsSpotify size={30} /> </a>
                                 <CgBell size={30} />
                             </div>
                         </div>
