@@ -5,14 +5,8 @@ import { fTime } from "@/app/pages/api/helper";
 import { useStore } from "@/store";
 import Image from "next/image";
 import Script from "next/script";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import Draggable from "react-draggable";
-import { AiFillPlayCircle } from "react-icons/ai";
-import {
-    BsFillPlayCircleFill,
-    BsFillPlayFill,
-    BsPauseFill,
-} from "react-icons/bs";
+import React, { useCallback, useEffect, useState } from "react";
+import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 import { Rnd } from "react-rnd";
 
 function convertRemToPixels(rem) {
@@ -113,7 +107,6 @@ const findCurrentTrack = (tracks: any, time: number) => {
         }
         currentTrack = tracks[i];
     }
-    console.log("Current track: " + currentTrack?.title);
     return currentTrack;
 };
 
@@ -176,9 +169,6 @@ export const VideoPlayer = ({
             event.data == 1
                 ? setPlaybackStatus(true)
                 : setPlaybackStatus(false);
-            console.log(
-                "state changed to " + (event.data == 1 ? "playing" : "paused")
-            );
         },
         [setPlaybackStatus]
     );
@@ -208,11 +198,6 @@ export const VideoPlayer = ({
     // }, [player]);
 
     useEffect(() => {
-        handleSeek(player, seek);
-        handlePlay(player);
-    }, [player, seek]);
-
-    useEffect(() => {
         (window as any).onYouTubeIframeAPIReady = () => {
             const player = new (window as any).YT.Player(ytRef.current, {
                 events: {
@@ -238,15 +223,12 @@ export const VideoPlayer = ({
     // //update current track every second
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log(set);
             if (player) {
                 const time = player.getCurrentTime();
                 const currentTrack = findCurrentTrack(
                     set?.expand?.tracks,
                     time
                 );
-
-                console.log(currentTrack);
                 updateCurrentTrack(currentTrack);
             }
         }, 1000);

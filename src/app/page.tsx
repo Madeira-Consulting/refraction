@@ -1,67 +1,21 @@
 "use client";
-import Image from "next/image";
-import { Inter } from "@next/font/google";
 import PocketBase from "pocketbase";
-
-import _ from "lodash";
-import { Sidebar } from "@/stories/Sidebar";
-import Header from "@/stories/Header";
-import { AiFillEye } from "react-icons/ai";
-import { BsPlusLg, BsFillCalendarDateFill } from "react-icons/bs";
-import { FaLocationArrow } from "react-icons/fa";
-import { MdScreenShare } from "react-icons/md";
-import { RiHeart3Fill } from "react-icons/ri";
 import { useEffect, useState } from "react";
-import { VideoPlayer } from "@/stories/VideoPlayer";
-import { Mediabar } from "@/stories/Mediabar";
-import { Tracklist } from "@/stories/Tracklist";
-import { fDate, fNumber } from "@/app/pages/api/helper";
 import { EventButton } from "@/stories/EventButton";
-import { ArtistButton } from "@/stories/ArtistButton";
-
-const getEvents = async () => {
-    const events = await pb
-        .collection("events")
-        .getFullList(200 /* batch size */, {
-            sort: "created",
-        });
-    console.log(events);
-    return events;
-};
-
-const getArtists = async () => {
-    const events = await pb
-        .collection("artists")
-        .getFullList(200 /* batch size */, {
-            sort: "created",
-        });
-    console.log(events);
-    return events;
-};
+import { getEvents } from "@/util/getEvents";
 
 const pb = new PocketBase("http://127.0.0.1:8090");
 pb.autoCancellation(false);
 
-export default function Event({ params }: any) {
+export default function Event() {
     const [events, setEvents] = useState<any>([]);
-    const [artists, setArtists] = useState<any>([]);
 
     useEffect(() => {
         (async () => {
-            const eventsPromise = await getEvents();
-            const artistsPromise = await getArtists();
+            const eventsPromise = await getEvents(pb);
             setEvents(eventsPromise);
-            setArtists(artistsPromise);
         })();
     }, []);
-
-    const user = {
-        username: "johndoe",
-        firstName: "John",
-        lastName: "Doe",
-        email: "johndoe@mail.com",
-        avatar: "/pp.jpg",
-    };
 
     return (
         <div className="flex flex-row w-screen bg-cover duration-500">
@@ -97,33 +51,6 @@ export default function Event({ params }: any) {
                         "w-full z-30 bg-gradient-to-t from-dark1 to-transparent flex flex-col gap-5 justify-end"
                     }
                 >
-                    {/* <div className={"pr-8  " + (true ? "pl-32" : "pl-72")}>
-                    <span className="text-white font-bold text-3xl">
-                        Hot artists
-                    </span>
-
-                    <div className="flex flex-row flex-wrap gap-5 duration-500 py-5">
-                        {artists.length > 0
-                            ? artists.map((artist: any) => {
-                                  return (
-                                      <ArtistButton
-                                          key={artist.id}
-                                          image={
-                                              "http://localhost:8090/api/files/" +
-                                              artist.collectionId +
-                                              "/" +
-                                              artist.id +
-                                              "/" +
-                                              artist.profilepicture
-                                          }
-                                          text={artist.name}
-                                      />
-                                  );
-                              })
-                            : console.log("loading")}
-                    </div>
-                </div> */}
-
                     <div
                         className={
                             "pr-16 pl-16 h-screen flex flex-col justify-end pb-32"
@@ -156,11 +83,14 @@ export default function Event({ params }: any) {
                                                   "/" +
                                                   event.logo
                                               }
-                                              link={"./event/" + event.urlParameter}
+                                              link={
+                                                  "./event/" +
+                                                  event.urlParameter
+                                              }
                                           />
                                       );
                                   })
-                                : console.log("loading")}
+                                : null}
                         </div>
                     </div>
                 </div>

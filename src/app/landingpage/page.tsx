@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Canvas, useFrame, useLoader, LensFl } from "react-three-fiber";
-import { Box, Environment } from "@react-three/drei";
+import React, { useEffect, useRef, useState } from "react";
+import { Canvas, useFrame, useLoader } from "react-three-fiber";
+import { Environment } from "@react-three/drei";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
@@ -10,13 +10,8 @@ import {
     DepthOfField,
     EffectComposer,
     Noise,
-    GodRays,
-    Glitch,
-    ChromaticAberration,
-    HueSaturation,
-    BrightnessContrast,
 } from "@react-three/postprocessing";
-import { BlendFunction, KernelSize, Resizer } from "postprocessing";
+import { KernelSize } from "postprocessing";
 
 function Starfield() {
     const ref = useRef();
