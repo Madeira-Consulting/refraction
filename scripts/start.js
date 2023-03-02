@@ -33,7 +33,7 @@ const randomIntroPrompt =
 
 const nameToCommand = {
     "Next.JS": "next dev",
-    PocketBase: "npm run pocketbase",
+    PocketBase: "npm run pocketbase --silent",
     "Middleware Service": "middleware",
     Storybook: "storybook",
 };
