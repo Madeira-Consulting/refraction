@@ -1,16 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BiPyramid, BiDotsVerticalRounded } from "react-icons/bi";
 import { BsPlusLg, BsSpotify } from "react-icons/bs";
 import { MdOutlinePlaylistAdd } from "react-icons/md";
-import cheerio, { AnyNode } from "cheerio";
-import { fTime, fDate, fNumber } from "@/app/pages/api/helper";
+import cheerio from "cheerio";
+import { fTime, fDate } from "@/app/pages/api/helper";
 import { handleSeek, handleUnmute } from "./VideoPlayer";
 import { useStore } from "@/store";
 
-export const Tracklist = ({ setSeek, setId, pb }: any) => {
+export const Tracklist = ({ setId, pb }: any) => {
     const [requestedTracklist, setRequestedTracklist] = useState(false);
     const currentTrack = useStore.getState().currentTrack;
 
@@ -55,10 +55,10 @@ export const Tracklist = ({ setSeek, setId, pb }: any) => {
     };
 
     const createTracklist = async (setId: string, set: any) => {
-        const data = {
-            isInitial: true,
-            set: setId,
-        };
+        // const data = {
+        //     isInitial: true,
+        //     set: setId,
+        // };
         const tracklist = await fetchTracklist(set?.tracklistURL).then(
             (res) => {
                 console.log("Successfully fetched tracklist!");
@@ -155,10 +155,10 @@ export const Tracklist = ({ setSeek, setId, pb }: any) => {
                     >
                         {" "}
                         <span className="text-2xl font-semibold">
-                            {set?.expand?.venue.name}
+                            {set?.expand?.venue?.name}
                         </span>
                         <span className="text-md font-semibold">
-                            {(set?.expand?.artist[0].name) } | {fDate(set?.date)}
+                            {set?.expand?.artist[0].name} | {fDate(set?.date)}
                         </span>
                     </div>
                 </div>

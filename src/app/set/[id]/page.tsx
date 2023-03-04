@@ -3,38 +3,43 @@
 import Image from "next/image";
 import PocketBase from "pocketbase";
 
-import _ from "lodash";
 import { AiFillEye } from "react-icons/ai";
 import { BsPlusLg, BsFillCalendarDateFill } from "react-icons/bs";
 import { FaLocationArrow } from "react-icons/fa";
 import { MdScreenShare } from "react-icons/md";
 import { RiHeart3Fill } from "react-icons/ri";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Tracklist } from "@/stories/Tracklist";
 import { fDate, fNumber } from "@/app/pages/api/helper";
 import { VideoReference } from "@/stories/VideoReference";
 import { useStore } from "@/store";
+import { handleVideoChange } from "@/stories/VideoPlayer";
 
 const getSet = async (id: string) => {
-    const record = await pb.collection("sets").getOne(id, {
+    const set = await pb.collection("sets").getOne(id, {
         expand: "artist,venue,tracks",
     });
-    console.log(record);
 
-    return record;
-};
-
-const findCurrentTrack = (tracks: any, time: number) => {
-    let currentTrack = null;
-    for (let i = 0; i < tracks.length; i++) {
-        if (tracks[i].timestamp > time) {
-            break;
-        }
-        currentTrack = tracks[i];
+    if (set) {
+        console.log("Set found");
+    } else {
+        console.log("Set not found");
     }
-    console.log("Current track: " + currentTrack?.title);
-    return currentTrack;
+
+    return set;
 };
+
+// const findCurrentTrack = (tracks: any, time: number) => {
+//     let currentTrack = null;
+//     for (let i = 0; i < tracks.length; i++) {
+//         if (tracks[i].timestamp > time) {
+//             break;
+//         }
+//         currentTrack = tracks[i];
+//     }
+//     console.log("Current track: " + currentTrack?.title);
+//     return currentTrack;
+// };
 
 const pb = new PocketBase("http://127.0.0.1:8090");
 
@@ -43,18 +48,15 @@ pb.autoCancellation(false);
 export default function Set({ params }: any) {
     const setId = params.id;
 
-
-    const { player, set, isAttached, updateIsAttached, currentTrack } =
-        useStore((state) => ({
+    const { player, set, updateIsAttached, currentTrack } = useStore(
+        (state) => ({
             player: state.player.player,
             set: state.set,
             isAttached: state.player.isAttached,
             updateIsAttached: state.player.updateIsAttached,
             currentTrack: state.currentTrack,
-        }));
-
-    const [seek, setSeek] = useState(false);
-    const [fullScreen, setFullScreen] = useState(false);
+        })
+    );
 
     useEffect(() => {
         updateIsAttached(true);
@@ -63,6 +65,7 @@ export default function Set({ params }: any) {
     useEffect(() => {
         (async () => {
             const set = await getSet(setId);
+            handleVideoChange(player, set.video);
             useStore.setState({
                 set: {
                     set: set,
@@ -113,7 +116,6 @@ export default function Set({ params }: any) {
                     <Tracklist
                         set={set}
                         currentTrack={currentTrack}
-                        setSeek={setSeek}
                         setId={setId}
                         pb={pb}
                     />
@@ -126,7 +128,7 @@ export default function Set({ params }: any) {
                                     <div className="rounded-full aspect-square overflow-clip w-16 h-16  ">
                                         {set?.set?.artist ? (
                                             <Image
-                                            unoptimized={true}
+                                                unoptimized={true}
                                                 src={
                                                     "http://localhost:8090/api/files/wt02nz9hdjxzhxx/" +
                                                     set?.set?.artist[0] +
@@ -151,11 +153,11 @@ export default function Set({ params }: any) {
                                 <div className="flex flex-col">
                                     <span className="font-bold">
                                         {set?.set?.expand?.artist[0]?.name}
-                                        {console.log(set?.set)}
                                     </span>
                                     <span>
                                         {fNumber(
-                                            set?.set?.expand?.artist[0]?.followers
+                                            set?.set?.expand?.artist[0]
+                                                ?.followers
                                         ) + " Fans"}
                                     </span>
                                 </div>
@@ -200,7 +202,8 @@ export default function Set({ params }: any) {
                                             <AiFillEye size={20} />
                                         </div>
                                         <div className="col-span-7">
-                                            {fNumber(set?.set?.views) + " views"}
+                                            {fNumber(set?.set?.views) +
+                                                " views"}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-8 items-center gap-10">
@@ -208,7 +211,8 @@ export default function Set({ params }: any) {
                                             <RiHeart3Fill size={20} />
                                         </div>
                                         <div className="col-span-7">
-                                            {fNumber(set?.set?.likes) + " likes"}
+                                            {fNumber(set?.set?.likes) +
+                                                " likes"}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-8 items-center gap-10">

@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { AiFillHome } from "react-icons/ai";
-import { BsQuestionLg } from "react-icons/bs";
 import Image from "next/image";
 import Link from "next/link";
 
